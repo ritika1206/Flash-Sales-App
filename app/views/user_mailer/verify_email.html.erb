@@ -1,0 +1,7 @@
+<h1>Congratulations <%= @user.name %> on successfully signing in on Flash Sales</h1>
+<h3>Please click on the below button to verify your email</h3>
+
+<%= form.with url: 'user/verify_email' do |form| %>
+  <%= form.hidden_field :verification_token, value: @user.verification_token %>
+  <%= form.submit "Verify" %>
+<% end %>
