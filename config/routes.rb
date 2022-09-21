@@ -5,5 +5,6 @@ Rails.application.routes.draw do
 
   controller :sessions do
     get 'login' => :new, as: :login
+    post 'login' => :create
   end
 end
