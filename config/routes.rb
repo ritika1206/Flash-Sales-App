@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  resources :users do
+    get 'verify/:verification_token', on: :collection, action: :verify
+  end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+  controller :sessions do
+    get 'login' => :new, as: :login
+  end
 end
