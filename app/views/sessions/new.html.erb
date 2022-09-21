@@ -1,2 +1,12 @@
 <%= notice %>
 <h1>Login</h1>
+
+<%= form_with model: @user, url: '/login', method: :post do |form| %>
+  <%= form.label :email, 'Email' %>
+  <%= form.email_field :email %>
+
+  <%= form.label :password, 'Password' %>
+  <%= form.password_field :password %>
+
+  <%= form.submit 'Login' %>
+<% end %>
