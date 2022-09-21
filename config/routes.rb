@@ -7,4 +7,6 @@ Rails.application.routes.draw do
     get 'login' => :new, as: :login
     post 'login' => :create
   end
+
+  resources :deals
 end
