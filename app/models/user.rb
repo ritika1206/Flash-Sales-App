@@ -1,8 +1,6 @@
 class User < ApplicationRecord
-  has_secure_password validations: false
+  has_secure_password
   has_secure_token :verification_token
-  
-  attr_accessor :password_digest
 
   validates :name, :email, presence: true
   validates :password, confirmation: true, allow_blank: true
