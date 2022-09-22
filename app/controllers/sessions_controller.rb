@@ -7,7 +7,10 @@ class SessionsController < ApplicationController
     user = User.find_by(email: permitted_params[:email])
 
     if user.try(:authenticate, permitted_params[:password])
-      session[:user_id] = user.id
+      cookies.encrypted[:user_id] = {
+        value: user.id,
+        expires: 10.days.from_now
+      }
       redirect_to deals_path
     else
       redirect_to login_url, notice: "Invalid credentials"
@@ -15,7 +18,7 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    session[:user_id] = nil
+    cookies.delete(:user_id)
     redirect_to login_url
   end
 
@@ -23,8 +26,4 @@ class SessionsController < ApplicationController
     def permitted_params
       params.require(:user).permit(:email, :password)
     end
-
-    # def attach_verification_token_to_params
-    #   params[:verification_token] = 
-    # end
 end
