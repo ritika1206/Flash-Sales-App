@@ -1,4 +1,5 @@
 <%= form_with model: user, url: '/users', method: :post do |form| %>
+  <h2>Sign up</h2>
   <%= form.label :name, 'Name ' %>
   <%= form.text_field :name %>
 
@@ -9,7 +10,11 @@
   <%= form.password_field :password %>
 
   <%= form.label :password_confirmation, 'Confirm password ' %>
-  <%= form.password_field :password_confirmation %>  
+  <%= form.password_field :password_confirmation %>
 
-  <%= form.submit 'Sign up' %>
+  <button type="submit">Sign up</button>
+
+  <p>Already registered?
+    <%= link_to 'Login', login_url %>
+  </p>
 <% end %>
