@@ -8,8 +8,9 @@ Rails.application.routes.draw do
   end
 
   controller :sessions do
-    get 'login' => :new, as: :login
+    get 'login' => :new
     post 'login' => :create
+    get 'logout' => :destroy
   end
 
   resources :deals
