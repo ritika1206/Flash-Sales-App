@@ -23,4 +23,8 @@ class SessionsController < ApplicationController
     def permitted_params
       params.require(:user).permit(:email, :password)
     end
+
+    # def attach_verification_token_to_params
+    #   params[:verification_token] = 
+    # end
 end
