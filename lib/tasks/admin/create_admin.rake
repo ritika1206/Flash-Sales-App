@@ -11,6 +11,7 @@ namespace :admin do
     puts "Confirm password"
     admin[:password_confirmation] = gets.chomp
     admin[:role] = 'admin'
+    admin[:verified_at] = Time.current
 
     admin_user = User.new(admin)      
     puts "Something went wrong could not create admin" unless admin_user.save

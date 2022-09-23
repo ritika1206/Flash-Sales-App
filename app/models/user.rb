@@ -11,7 +11,7 @@ class User < ApplicationRecord
 
   private
     def send_verification_email
-      UserMailer.verify_email(self).deliver_now
+      UserMailer.verify_email(self).deliver_now if role == 'user'
     end
 
     def setting_password?
