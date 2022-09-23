@@ -14,8 +14,8 @@
     <nav>
       <h4>Flash Sales</h4>
       <div>
-        <%= link_to 'Login', login_url %>
-        <%= link_to 'Logout', logout_url %>
+        <%= link_to('Login', login_url) unless cookies[:user_id] %>
+        <%= link_to('Logout', logout_url) if cookies[:user_id] %> 
       </div>
     </nav>
     <%= yield %>

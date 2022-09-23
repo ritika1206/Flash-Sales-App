@@ -1,10 +1,9 @@
 
 <%= form_with model: @user, url: '/login', method: :post do |form| %>
   <% if notice %>
-    <h2><%= notice %></h2>
-  <% else %>
-    <h2>Login</h2>
+    <p class='alert'><%= notice %></p>
   <% end %>
+  <h2>Login</h2>
   <%= form.label :email, 'Email' %>
   <%= form.email_field :email %>
 

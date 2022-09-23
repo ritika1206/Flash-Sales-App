@@ -1,4 +1,7 @@
 <%= form_with model: user, url: '/users', method: :post do |form| %>
+  <% if notice %>
+    <p class='alert'><%= notice %></p>
+  <% end %>
   <h2>Sign up</h2>
   <%= form.label :name, 'Name ' %>
   <%= form.text_field :name %>
