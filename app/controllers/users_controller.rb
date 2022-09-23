@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize, except: [:index, :verify, :edit]
+  skip_before_action :authorize, except: [:index, :edit]
 
   def index
   end
@@ -19,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def verify
-    user = User.find_by(verification_token: params[:verification_token])
+    p user = User.find_by(verification_token: params[:verification_token])
     if user.present?
       user.update!(verified_at: Time.current)
       redirect_to login_url
