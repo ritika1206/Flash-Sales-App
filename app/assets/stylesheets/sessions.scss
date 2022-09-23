@@ -1,6 +1,7 @@
 form {
   width: 30%;
   border: 1px solid #D9D9DA;
+  box-shadow: 0.1vh 0.1vh 2vh 0.3vh #D9D9DA;
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -13,7 +14,11 @@ form {
   input {
     margin-bottom: 1.5vh;
     border: 1px solid #B9B9B9;
-    height: 2.5vh;
+    height: 2.8vh;
+  }
+  textarea {
+    margin-bottom: 1.5vh;
+    border: 1px solid #B9B9B9;
   }
   label {
     margin-bottom: 0.5vh;

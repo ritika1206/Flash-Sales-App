@@ -23,5 +23,7 @@ Rails.application.routes.draw do
     get 'logout' => :destroy
   end
 
-  resources :deals
+  namespace :admin do
+    resources :deals
+  end
 end
