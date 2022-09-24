@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_24_053603) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_24_092437) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -45,12 +45,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_24_053603) do
     t.integer "price_in_cents"
     t.integer "discount_price_in_cents"
     t.integer "quantity"
-    t.boolean "is_publishable"
+    t.boolean "is_publishable", default: false
     t.decimal "tax_percentage"
     t.integer "created_by"
     t.datetime "published_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "published", default: false
   end
 
   create_table "users", force: :cascade do |t|
