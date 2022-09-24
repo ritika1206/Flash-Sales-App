@@ -36,11 +36,14 @@ body {
       color: white
     }
     div {
-      margin-top: 2vh;
+      margin-top: 1vh;
       a {
         margin-right: 2vh;
         text-decoration: none;
         color: white;
+      }
+      a:hover {
+        color: white !important;
       }
     }
   }
