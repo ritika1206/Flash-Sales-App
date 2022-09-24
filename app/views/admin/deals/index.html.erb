@@ -1,1 +1,15 @@
-Deals
+<div>
+  <% @deals.each do |deal| %>
+    <div>
+      <%= image_tag deal.images.first %>
+      <div>
+        <h3><%= deal.title %></h3>
+        <p><%= deal.description %></p>
+        <p><%= deal.discount_price_in_cents %></p> <%= deal.price_in_cents %>
+        <label>Quantity: </label> <%= deal.quantity %>
+        <label>Tax Percentage: </label> <%= deal.tax_percentage %>
+        <label>Publish Date: </label> <%=  deal.published_at%>
+      </div>
+    </div>
+    <% end %>
+</div>

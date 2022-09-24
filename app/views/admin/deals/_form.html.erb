@@ -1,15 +1,19 @@
-<%= form_with model: deal do |form| %>
+<%= form_with model: deal, url: admin_deals_url, method: :post do |form| %>
+  <% if notice %>
+    <p class='alert'><%= notice %></p>
+  <% end %>
+  
   <%= form.label :title %>
   <%= form.text_field :title %>
 
   <%= form.label :description %>
   <%= form.text_area :description %>
 
-  <%= form.label :price %>
-  <%= form.number_field :price %>
+  <%= form.label :price_in_cents %>
+  <%= form.number_field :price_in_cents %>
 
-  <%= form.label :discount_price %>
-  <%= form.number_field :discount_price %>
+  <%= form.label :discount_price_in_cents %>
+  <%= form.number_field :discount_price_in_cents %>
 
   <%= form.label :quantity %>
   <%= form.number_field :quantity %>
@@ -19,6 +23,9 @@
 
   <%= form.label :published_at %>
   <%= form.datetime_local_field :published_at %>
+
+  <%= form.label :images, 'Deal Images' %>
+  <%= form.file_field :images, multiple: true %>
 
   <button type="submit">Create Deal</button>
 <% end %>
