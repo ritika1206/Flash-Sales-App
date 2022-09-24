@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_secure_password
   has_secure_token :verification_token
+  has_many :deals
 
   validates :name, :email, presence: true
   validates :password, confirmation: true, allow_blank: true

@@ -1,5 +1,6 @@
 class Deal < ApplicationRecord
   has_many_attached :images
+  belongs_to :admin, class_name: "User"
   after_save :publishable?, unless: ->{ is_publishable }
 
   validates :title, :description, :price_in_cents, :discount_price_in_cents, :quantity, :tax_percentage, :published_at, presence: true 
