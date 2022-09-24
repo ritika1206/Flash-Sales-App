@@ -1,0 +1,9 @@
+<div class="deals_container">
+<%= render 'deal', deal: @deal %>
+
+<p><%= @deal.description %></p>
+
+<h4>Created By<%= @deal.admin %></h4>
+
+<%= link_to('Update Deal', edit_admin_deal_url(@deal)) %>
+<%= button_to('Delete Deal', admin_deal_url(@deal), method: :delete) %>

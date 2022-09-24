@@ -31,5 +31,6 @@
       <h4>Tax: <%= deal.tax_percentage %>%</h4>
       <h4>Publish Date: <%=  deal.published_at.to_date%></h4>
     </div>
+    <%= link_to 'View', admin_deal_url(deal) %>
   </div>
 </div>

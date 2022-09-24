@@ -17,8 +17,6 @@ class Admin::DealsController < Admin::BaseController
   end
 
   def create
-    p params
-    p deal_permitted_params
     deal = Deal.new(deal_permitted_params)
     deal.images.attach params[:deal][:images]
 
@@ -27,6 +25,22 @@ class Admin::DealsController < Admin::BaseController
     else
       redirect_to new_admin_deal_url, notice: 'Something went wrong'
     end
+  end
+
+  def show
+    @deal = Deal.find_by(id: params[:id])
+  end
+
+  def edit
+    @deal = Deal.find_by(id: params[:id])
+    render :new
+  end
+
+  def destroy
+    deal = Deal.find_by(id: params[:id])
+    deal.images.purge
+    deal.destroy!
+    redirect_to unpublished_admin_deals_url, notice: "Deal destroyed successfully"
   end
 
   private
