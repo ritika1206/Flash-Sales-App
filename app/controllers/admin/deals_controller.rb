@@ -3,6 +3,15 @@ class Admin::DealsController < Admin::BaseController
     @deals = Deal.all
   end
 
+  def published
+    @deals = Deal.where(published: true )
+  end
+
+  def unpublished
+    p @deals = Deal.where(published: false)
+    render :index
+  end
+
   def new
     @deal = Deal.new
   end
