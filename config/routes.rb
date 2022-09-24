@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :deals
+    resources :deals do
+      get 'published', on: :collection
+      get 'unpublished', on: :collection
+    end
   end
 end
