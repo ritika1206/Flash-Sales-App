@@ -7,6 +7,11 @@ Rails.application.routes.draw do
     patch 'set-new-password/:id' => :update
   end
 
+  controller :registration do
+    get 'sign-up' => :new
+    post 'sign-up' => :create
+  end
+
   controller :sessions do
     get 'login' => :new
     post 'login' => :create
