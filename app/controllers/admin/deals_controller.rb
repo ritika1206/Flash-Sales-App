@@ -4,11 +4,24 @@ class Admin::DealsController < Admin::BaseController
   end
 
   def published
-    @deals = Deal.where(published: true )
+    @deals = Deal.where(status: "published" )
+    @notice = "No Published deals exist..." if @deals.blank?
+    render :index
   end
 
   def unpublished
-    p @deals = Deal.where(published: false)
+    @deals = Deal.where(status: "unpublished")
+    @notice = "No Unpublished deals exist..." if @deals.blank?
+    render :index
+  end
+
+  def live
+    @deals = Deal.where(status: "live")
+    @notice = ''
+    if @deals.blank?
+      @deals = Deal.order(published_at: :desc).limit(2)
+      @notice = "No live deals for today..."
+    end
     render :index
   end
 
@@ -38,8 +51,7 @@ class Admin::DealsController < Admin::BaseController
 
   def destroy
     deal = Deal.find_by(id: params[:id])
-    deal.images.purge
-    deal.destroy!
+    deal.destroy
     redirect_to unpublished_admin_deals_url, notice: "Deal destroyed successfully"
   end
 

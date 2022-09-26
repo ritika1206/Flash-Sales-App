@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :deals do
       get 'published', on: :collection
       get 'unpublished', on: :collection
+      get 'live', on: :collection
     end
   end
 end
