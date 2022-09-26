@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_24_092437) do
+ActiveRecord::Schema[7.0].define(version: 2022_09_25_051621) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -48,10 +48,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_24_092437) do
     t.boolean "is_publishable", default: false
     t.decimal "tax_percentage"
     t.integer "created_by"
-    t.datetime "published_at"
+    t.date "published_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "published", default: false
+    t.string "status", default: "unpublished"
   end
 
   create_table "users", force: :cascade do |t|
