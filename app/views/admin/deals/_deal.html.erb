@@ -1,4 +1,8 @@
-<div class="deal">
+<% if css_class %>
+<div class="deal <%= css_class %> col-md-6">
+<% else %>
+<div class="deal col-md-6">
+<% end %>
   <div id='corousal-deal-<%= deal.id %>' class="carousel slide" data-ride="carousel" data-interval="3500">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -20,17 +24,19 @@
     </a>
   </div>
   <div class="deal_detail">
-    <h3><%= deal.title %></h3>
-    <p><i><%= deal.description %></i></p>
-    <div class="price_detail">
-      <p id="price">$<%= deal.price_in_cents %></p>
-      <p id="d_price">$<%= deal.discount_price_in_cents %></p>
-    </div>
+    <h1><%= link_to(deal.title, admin_deal_url(deal)) %></h1>
+    <% if summarize %>
+      <p><%= deal.description.truncate_words(30) %></p>
+    <% end %>
+    
     <div class="deal_info">
       <h4>Quantity: <%= deal.quantity %></h4>
       <h4>Tax: <%= deal.tax_percentage %>%</h4>
       <h4>Publish Date: <%=  deal.published_at.to_date%></h4>
     </div>
-    <%= link_to 'View', admin_deal_url(deal) %>
+    <div class="price_detail">
+      <p id="price">$<%= deal.price_in_cents %></p>
+      <p id="d_price">$<%= deal.discount_price_in_cents %></p>
+    </div>
   </div>
 </div>

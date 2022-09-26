@@ -27,13 +27,17 @@ body {
     justify-content: space-between;
     background-color: #4D4D4D;
     padding-bottom: 0;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
     h4 {
       font-family: 'Kaushan Script', cursive;
       margin-left: 2vh;
       margin-top: 1vh;
       font-size: 3vh;
       margin-bottom: 1vh;
-      color: white
+      color: white;
+      text-decoration: none
     }
     div {
       margin-top: 1vh;

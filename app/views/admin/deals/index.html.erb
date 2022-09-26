@@ -1,5 +1,6 @@
-<div class="deals_container">
+<div class="deals_container row">
+  <p><%= @notice %></p>
   <% @deals.each do |deal| %>
-    <%= render 'deal', deal: deal%>
+    <%= render partial: 'deal', locals: { summarize: true, deal: deal, css_class: nil } %>
   <% end %>
 </div>

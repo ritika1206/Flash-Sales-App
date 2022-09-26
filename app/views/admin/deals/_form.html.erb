@@ -22,7 +22,7 @@
   <%= form.number_field :tax_percentage, value: deal.tax_percentage %>
 
   <%= form.label :published_at %>
-  <%= form.datetime_local_field :published_at, value: deal.published_at %>
+  <%= form.date_field :published_at, value: deal.published_at %>
 
   <%= form.label :images, 'Deal Images' %>
   <%= form.file_field :images, multiple: true, value: deal.images %>
