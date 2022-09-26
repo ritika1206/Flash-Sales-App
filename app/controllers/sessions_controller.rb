@@ -1,5 +1,5 @@
 class SessionsController < ApplicationController
-  skip_before_action :authorize
+  skip_before_action :authorize, only: [:create, :new]
   def new
     @user = User.new
   end
@@ -7,7 +7,6 @@ class SessionsController < ApplicationController
   def create
     user = User.find_by(email: permitted_params[:email])
     cookie_expiration = COOKIE_EXPIRATION_DURATION.from_now if permitted_params[:remember_me] == '1'
-    p permitted_params
 
     if user.try(:authenticate, permitted_params[:password])
       if user.verified_at.present?
