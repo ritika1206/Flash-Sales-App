@@ -1,21 +1,7 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize, only: [:create, :new, :verify, :forgot_password, :forgot_password_mail_sent, :edit_password, :update]
+  skip_before_action :authorize, only: [:verify, :forgot_password, :forgot_password_mail_sent, :edit_password, :update]
 
   def index
-  end
-
-  def create
-    user = User.new(permitted_params)
-
-    if user.save
-      redirect_to login_url, notice: 'Please verify your email to login'
-    else
-      redirect_to new_user_url, notice: 'Something went wrong'
-    end
-  end
-
-  def new
-    @user = User.new
   end
 
   def verify
