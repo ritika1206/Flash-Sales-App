@@ -1,4 +1,4 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "super@flash.com"
+  default from: Mailer::DEFAULT_EMAIL
   layout "mailer"
 end

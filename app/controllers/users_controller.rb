@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize, except: [:index, :edit]
+  skip_before_action :authorize, only: [:create, :new, :verify, :forgot_password, :forgot_password_mail_sent, :edit_password, :update]
 
   def index
   end
