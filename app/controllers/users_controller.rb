@@ -1,15 +1,7 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize, only: [:verify, :forgot_password, :forgot_password_mail_sent, :edit_password, :update]
+  skip_before_action :authorize, only: [:forgot_password, :forgot_password_mail_sent, :edit_password, :update]
 
   def index
-  end
-
-  def verify
-    p user = User.find_by(verification_token: params[:verification_token])
-    if user.present?
-      user.update!(verified_at: Time.current)
-      redirect_to login_url
-    end
   end
 
   def edit

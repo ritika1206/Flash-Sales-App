@@ -14,4 +14,9 @@ class RegistrationController < ApplicationController
       redirect_to new_user_url, notice: 'Something went wrong'
     end
   end
+
+  private
+  def permitted_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :verification_token, :id)
+  end 
 end
