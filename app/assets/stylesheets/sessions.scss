@@ -1,0 +1,37 @@
+form {
+  width: 30%;
+  border: 1px solid #D9D9DA;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  padding: 2vh 2vh 2vh 2vh;
+  margin-top: 4vh;
+  padding-bottom: 3vh;
+  h2 {
+    align-self: center;
+  }
+  input {
+    margin-bottom: 1.5vh;
+    border: 1px solid #B9B9B9;
+    height: 2.5vh;
+  }
+  label {
+    margin-bottom: 0.5vh;
+  }
+  button {
+    background-color: #3C9DBE;
+    color: white;
+    border: 1px solid #3C9DBE;
+    font-size: 3vh;
+    padding: 1vh 1vh 1vh 1vh;
+    margin-bottom: 2vh;
+    cursor: pointer;
+  }
+  a {
+    text-decoration: none;
+    color: #034567;
+  }
+  p {
+    align-self: center;
+  }
+}
