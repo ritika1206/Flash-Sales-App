@@ -36,8 +36,14 @@ body {
       margin-top: 1vh;
       font-size: 3vh;
       margin-bottom: 1vh;
-      color: white;
-      text-decoration: none
+      text-decoration: none !important;
+      a {
+        color: white;
+        text-decoration: none !important;
+      }
+      a:hover {
+        color: white
+      }
     }
     div {
       margin-top: 1vh;
