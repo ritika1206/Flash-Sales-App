@@ -30,4 +30,11 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  en:
+  login_for_app_access: 'Please login to access the app'
+  not_exist: "%{resource_name} does not exist"
+  verify_email: 'Please verify email to login'
+  default_error_message: 'Something went wrong'
+  successfull: 'Successfull %{resource_name}'
+  invalid: "Invalid %{resource_name}"
+

@@ -14,18 +14,18 @@ class SessionsController < ApplicationController
           value: user.id,
           expires: cookie_expiration
         }
-        redirect_to deals_path, notice: 'Logged in successfully'
+        redirect_to deals_path, notice: t(:successfull, resource_name: 'login')
       else
-        redirect_to login_url, notice: 'Please verify your email to login'
+        redirect_to login_url, notice: t(:verify_email)
       end
     else
-      redirect_to login_url, notice: "Invalid credentials"
+      redirect_to login_url, notice: t(:invalid, resource_name: 'credentials')
     end
   end
 
   def destroy
     cookies.delete(:user_id)
-    redirect_to login_url, notice: 'Logged out successfully'
+    redirect_to login_url, notice: t(:successfull, resource_name: 'logout')
   end
 
   private

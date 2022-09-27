@@ -9,9 +9,9 @@ class RegistrationController < ApplicationController
     user = User.new(permitted_params)
 
     if user.save
-      redirect_to login_url, notice: 'Please verify your email to login'
+      redirect_to login_url, notice: t(:verify_email)
     else
-      redirect_to new_user_url, notice: 'Something went wrong'
+      redirect_to new_user_url, notice: t(:default_error_message)
     end
   end
 

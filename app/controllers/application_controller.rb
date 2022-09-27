@@ -3,6 +3,6 @@ class ApplicationController < ActionController::Base
 
   private
     def authorize
-      redirect_to login_url, notice: 'Please login to access the app' if cookies[:user_id].blank?
+      redirect_to login_url, notice: t(:login_for_app_access) if cookies[:user_id].blank?
     end
 end

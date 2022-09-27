@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       user.update!(permitted_params)
       redirect_to deals_url
     else
-      redirect_to login_url, notice: 'Something went wrong'
+      redirect_to login_url, notice: t(:default_error_message)
     end
   end
 

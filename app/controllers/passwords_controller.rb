@@ -20,7 +20,7 @@ class PasswordsController < ApplicationController
       user.update!(permitted_params)
       redirect_to deals_url
     else
-      redirect_to user_email_url, notice: 'User does not exist'
+      redirect_to user_email_url, notice: t(:not_exist, resource_name: 'User')
     end
   end
 
