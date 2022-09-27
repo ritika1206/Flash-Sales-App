@@ -9,9 +9,11 @@ class User < ApplicationRecord
 
   after_create_commit :send_verification_email
 
+  enum role: { user: 'user', admin: 'admin' }
+
   private
     def send_verification_email
-      UserMailer.verify_email(self).deliver_now if role == 'user'
+      UserMailer.verify_email(self).deliver_now if user?
     end
 
     def setting_password?

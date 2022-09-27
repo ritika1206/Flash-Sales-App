@@ -6,7 +6,7 @@ class PasswordsController < ApplicationController
   end
 
   def forgot_password_verify_email
-    p @user = User.find_by(email: permitted_params[:email])
+    @user = User.find_by(email: permitted_params[:email])
     UserMailer.verify_email_for_forgot_password(@user).deliver_now
   end
 
