@@ -1,5 +1,7 @@
 class SessionsController < ApplicationController
   skip_before_action :authorize, only: [:create, :new]
+  skip_before_action :restrict_access_to_admin_only, only: :destroy
+  
   def new
     @user = User.new
   end

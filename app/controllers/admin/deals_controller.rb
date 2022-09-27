@@ -1,4 +1,6 @@
 class Admin::DealsController < Admin::BaseController
+  skip_before_action :restrict_access_to_admin_only, only: [:live, :show]
+  
   def index
     @deals = Deal.all
   end

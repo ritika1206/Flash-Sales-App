@@ -4,6 +4,6 @@ module ApplicationHelper
   end
 
   def admin_logged_in?
-    p User.find_by(id: cookies[:user_id]).try(:admin?)
+    User.find_by(id: cookies.encrypted[:user_id]).try(:admin?)
   end
 end

@@ -16,7 +16,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <body>
     <nav>
-      <h4>Flash Sales</h4>
+      <h4><%= link_to('Flash Sales', live_admin_deals_url) %></h4>
       <div>
         <% if user_logged_in? %>
           <%= link_to('Live Deals', live_admin_deals_url) %>

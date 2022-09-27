@@ -35,6 +35,7 @@ en:
   not_exist: "%{resource_name} does not exist"
   verify_email: 'Please verify email to login'
   default_error_message: 'Something went wrong'
-  successfull: 'Successfull %{resource_name}'
+  successfull: 'Successful %{resource_name}'
   invalid: "Invalid %{resource_name}"
+  access_prohibitted: 'access_prohibitted'
 
