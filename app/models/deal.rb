@@ -2,8 +2,8 @@ class Deal < ApplicationRecord
   has_many_attached :images
   belongs_to :admin, class_name: "User", optional: true
 
-  before_update :restrict_deletion_or_publish_date_updation
-  before_destroy :restrict_deletion_or_publish_date_updation
+  before_update :restrict_updation
+  before_destroy :restrict_deletion
   after_destroy { |deal| deal.images.purge }
   after_commit :publishable?, unless: ->{ is_publishable }
 
@@ -18,12 +18,16 @@ class Deal < ApplicationRecord
   end
 
   def less_than_one_day_away_from_publish?
-    p published_at
     (published_at - Date.today).to_i <= 1
   end
 
-  def restrict_deletion_or_publish_date_updation
-    p self.less_than_one_day_away_from_publish?
+  def restrict_deletion
     throw :abort if self.less_than_one_day_away_from_publish?
+
+  end
+
+  def restrict_updation
+    throw :abort if self.less_than_one_day_away_from_publish? && published_at_changed?
+
   end
 end
