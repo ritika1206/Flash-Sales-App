@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
 
   def create
     user = User.find_by(email: permitted_params[:email])
-    cookie_expiration = COOKIE_EXPIRATION_DURATION.from_now if permitted_params[:remember_me] == '1'
+    cookie_expiration = FlashSales::User::COOKIE_EXPIRATION_DURATION.from_now if permitted_params[:remember_me] == '1'
 
     if user.try(:authenticate, permitted_params[:password])
       if user.verified_at.present?
