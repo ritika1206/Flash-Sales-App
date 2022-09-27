@@ -19,16 +19,21 @@
       <h4>Flash Sales</h4>
       <div>
         <% if user_logged_in? %>
-          <%= link_to('Unpublished Deals', unpublished_admin_deals_url) %>
-          <%= link_to('Published Deals', published_admin_deals_url) %>
-          <%= link_to('Create Deal', new_admin_deal_url) %> 
+          <%= link_to('Live Deals', live_admin_deals_url) %>
+          <% if admin_logged_in? %>
+            <%= link_to('Unpublished Deals', unpublished_admin_deals_url) %>
+            <%= link_to('Published Deals', published_admin_deals_url) %>
+            <%= link_to('Create Deal', new_admin_deal_url) %> 
+          <% end %>
           <%= link_to('Logout', logout_url) %> 
         <% else %>
           <%= link_to('Login', login_url) unless user_logged_in? %>
         <% end %>
       </div>
     </nav>
-    <p class='alert'><%= notice %></p>
+    <% if notice %>
+      <p class='alert'><%= notice %></p>
+    <% end %>
     <%= yield %>
   </body>
 </html>

@@ -54,7 +54,9 @@ body {
   .alert {
     color: #FA786E;
     margin: 0;
-    margin-top: 2vh;
+    margin-top: 7vh !important;
     align-self: center;
+    padding-bottom: 0;
+    font-size: 2vh;
   }
 }
