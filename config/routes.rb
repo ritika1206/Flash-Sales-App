@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
   resources :users do
-    get 'edit_password', on: :collection
-    get 'user-detail' => :forgot_password, on: :collection
-    get 'user-forgot-password-mail-sent' => :forgot_password_mail_sent, on: :collection
-    # get 'verify/:verification_token', on: :collection, action: :verify
-    patch 'set-new-password/:id' => :update
+    # get 'edit_password', on: :collection
+    # get 'user-forgot-password-mail-sent' => :forgot_password_mail_sent, on: :collection
+    # get 'user-detail' => :forgot_password, on: :collection
+  end
+  
+  controller :passwords do
+    get 'user-email' => :forgot_password
+    get 'user-forgot-password-mail-sent' => :forgot_password_verify_email, as: :verify_email_for_forgot_password
+    get 'edit_password'
+    patch ':user_id/set-new-password' => :set_new_password, as: :set_new_password
   end
 
   controller :verification do
