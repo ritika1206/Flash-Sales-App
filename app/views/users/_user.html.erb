@@ -1,0 +1,16 @@
+<div class='user'>
+  <div class='user-details'>
+    <h1><%= user.name.capitalize %></h1>
+    <h3><%= user.email %></h3>
+    <% if admin_logged_in? %>
+      <h4 class='user-role'>Role: <%= user.role %></h4>
+    <% end %>
+  </div>
+  <% if admin_logged_in? || logged_in_user.id == user.id%>
+    <div class='user-crud'>
+      <%= link_to('Show', user_url(user.id)) %>
+      <%= link_to('Edit', edit_user_url(user.id)) %>
+      <%= button_to('Delete', user_url(user.id), method: :delete, class: 'delete-user-btn') %>
+    </div>
+  <% end %>
+</div>

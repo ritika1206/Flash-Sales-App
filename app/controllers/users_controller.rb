@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   skip_before_action :authorize, only: [:update]
 
   def index
+    @users = User.all
   end
 
   def edit
