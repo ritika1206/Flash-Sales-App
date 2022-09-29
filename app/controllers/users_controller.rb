@@ -1,6 +1,5 @@
 class UsersController < ApplicationController
   skip_before_action :authorize
-  skip_before_action :restrict_access_to_admin_only, only: [:edit, :update, :show, :destroy]
   before_action :requested_user, only: [:edit, :show, :update, :destroy]
 
   def index

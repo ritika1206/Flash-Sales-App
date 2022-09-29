@@ -24,7 +24,7 @@
             <%= link_to('Unpublished Deals', admin_deals_url(status: 'unpublished')) %>
             <%= link_to('Published Deals', admin_deals_url(status: 'published')) %>
             <%= link_to('Create Deal', new_admin_deal_url) %>
-            <%= link_to('Existing Users', admin_existing_users_url ) %>
+            <%= link_to('Existing Users', admin_users_url ) %>
           <% end %>
           <%= link_to('Profile', user_url(logged_in_user))%>
           <%= link_to('Logout', logout_url) %> 

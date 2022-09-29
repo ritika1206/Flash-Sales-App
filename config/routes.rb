@@ -22,7 +22,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     resources :deals
-    get 'app-users', controller: :admin, as: :existing_users
+    resources :users
   end
 
   resources :deals, only: [:index, :show]
