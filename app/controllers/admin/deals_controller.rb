@@ -1,30 +1,7 @@
 class Admin::DealsController < Admin::BaseController
-  skip_before_action :restrict_access_to_admin_only, only: [:live, :show]
   
   def index
-    @deals = Deal.all
-  end
-
-  def published
-    @deals = Deal.where(status: "published" )
-    @notice = "No Published deals exist..." if @deals.blank?
-    render :index
-  end
-
-  def unpublished
-    @deals = Deal.where(status: "unpublished")
-    @notice = "No Unpublished deals exist..." if @deals.blank?
-    render :index
-  end
-
-  def live
-    @deals = Deal.where(status: "live")
-    @notice = ''
-    if @deals.blank?
-      @deals = Deal.order(published_at: :desc).limit(2)
-      @notice = "No live deals for today..."
-    end
-    render :index
+    @deals = Deal.where(status: params[:status])
   end
 
   def new
