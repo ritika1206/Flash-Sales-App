@@ -1,4 +1,9 @@
 class Deal < ApplicationRecord
+  PUBLISHABLE_DEAL_IMAGE_QUANTITY = 2
+  PUBLISHABLE_DEAL_QUANTITY = 10
+  DEAL_WITH_SAME_PUBLISH_DATE_QUANTITY = 2
+  DATE_DIFFERENCE = 1
+  
   has_many_attached :images
   belongs_to :admin, class_name: "User", optional: true
 
@@ -13,16 +18,17 @@ class Deal < ApplicationRecord
 
   scope :number_of_deals_with_publish_date, ->(date) { where(published_at: date).size }
   scope :live_deals, -> { where(status: 'live') }
+  scope :new_live_deals, -> { Deal.where(published_at: Date.today) }
 
   enum status: { live: 'live', unpublished: 'unpublished', published: 'published' }
 
   def publishable?
-    return true if images.size >= 2 && quantity > 10 && Deal.number_of_deals_with_publish_date(published_at) <= 2
+    return true if images.size >= PUBLISHABLE_DEAL_IMAGE_QUANTITY && quantity > PUBLISHABLE_DEAL_QUANTITY && Deal.number_of_deals_with_publish_date(published_at) <= DEAL_WITH_SAME_PUBLISH_DATE_QUANTITY
 
   end
 
   def less_than_one_day_away_from_publish?
-    (published_at - Date.today).to_i <= 1
+    (published_at - Date.today).to_i <= DATE_DIFFERENCE
   end
 
   def restrict_deletion

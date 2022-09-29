@@ -1,4 +1,5 @@
 class Admin::DealsController < Admin::BaseController
+  before_action :requested_deal, only: [:show, :edit, :destroy, :update]
   
   def index
     @deals = Deal.where(status: params[:status])
@@ -9,33 +10,44 @@ class Admin::DealsController < Admin::BaseController
   end
 
   def create
+    p deal_permitted_params
     deal = Deal.new(deal_permitted_params)
-    deal.images.attach params[:deal][:images]
 
-    if deal.save!
-      redirect_to admin_deals_url
+    if deal.save
+      redirect_to admin_deals_url(status: 'unpublished')
     else
-      redirect_to new_admin_deal_url, notice: 'Something went wrong'
+      redirect_to new_admin_deal_url, notice: t(:default_error_message)
     end
   end
 
   def show
-    @deal = Deal.find_by(id: params[:id])
   end
 
   def edit
-    @deal = Deal.find_by(id: params[:id])
-    render :new
+  end
+
+  def update
+    if @deal.update(deal_permitted_params)
+      redirect_to admin_deal_url(@deal), notice: t(:successfull, resource_name: 'updated deal')
+    else
+      redirect_to admin_deals_url(status: 'unpublished'), notice: t(:default_error_message)
+    end
   end
 
   def destroy
-    deal = Deal.find_by(id: params[:id])
-    deal.destroy
-    redirect_to unpublished_admin_deals_url, notice: "Deal destroyed successfully"
+    if @deal.destroy
+      redirect_to admin_deals_url(status: 'unpublished'), notice: t(:successfull, resource_name: 'destroyed deal')
+    else
+      redirect_to admin_deal_url(@deal), notice: t(:default_error_message)
+    end
   end
 
   private
     def deal_permitted_params
-      params.require(:deal).permit(:title, :description, :price_in_cents, :discount_price_in_cents, :quantity, :tax_percentage, :published_at)
+      params.require(:deal).permit(:title, :description, :price_in_cents, :discount_price_in_cents, :quantity, :tax_percentage, :published_at, images: [])
+    end
+
+    def requested_deal
+      @deal = Deal.find(params[:id])
     end
 end
