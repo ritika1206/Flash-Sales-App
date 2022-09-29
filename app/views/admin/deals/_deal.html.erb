@@ -1,16 +1,16 @@
 <% if css_class %>
-<div class="deal <%= css_class %> col-md-6">
+  <div class="deal <%= css_class %> col-md-6">
 <% else %>
-<div class="deal col-md-6">
+  <div class="deal col-md-6">
 <% end %>
   <div id='corousal-deal-<%= deal.id %>' class="carousel slide" data-ride="carousel" data-interval="3500">
     <div class="carousel-inner">
       <div class="carousel-item active">
-        <%= image_tag deal.images.first, class: "d-block" %>
+        <%= image_tag rails_blob_path(deal.images.first, disposition: "attachment"), class: "d-block" %>
       </div>
       <% deal.images.to_a[1..-1].each do |image| %>
         <div class="carousel-item">
-          <%= image_tag image, class: "d-block" %>
+          <%= image_tag rails_blob_path(image, disposition: "attachment"), class: "d-block" %>
         </div>
       <% end %>
     </div>
