@@ -10,7 +10,11 @@ class Deal < ApplicationRecord
   validates :title, :description, :price_in_cents, :discount_price_in_cents, :quantity, :tax_percentage, :published_at, presence: true 
   validates :title, uniqueness: true
   validates :price_in_cents, :discount_price_in_cents, :quantity, :tax_percentage, numericality: true
+
   scope :number_of_deals_with_publish_date, ->(date) { where(published_at: date).size }
+  scope :live_deals, -> { where(status: 'live') }
+
+  enum status: { live: 'live', unpublished: 'unpublished', published: 'published' }
 
   def publishable?
     return true if images.size >= 2 && quantity > 10 && Deal.number_of_deals_with_publish_date(published_at) <= 2
