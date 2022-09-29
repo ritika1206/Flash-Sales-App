@@ -1,4 +1,4 @@
-class PublishAndUnpublishDeals < ApplicationJob
+class DealPublishJob < ApplicationJob
   queue_as :default
 
   def perform
