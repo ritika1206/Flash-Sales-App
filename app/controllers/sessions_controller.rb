@@ -1,6 +1,5 @@
 class SessionsController < ApplicationController
   skip_before_action :authorize, only: [:create, :new]
-  skip_before_action :restrict_access_to_admin_only, only: :destroy
   
   def new
     @user = User.new
@@ -16,7 +15,7 @@ class SessionsController < ApplicationController
           value: user.id,
           expires: cookie_expiration
         }
-        redirect_to live_admin_deals_path, notice: t(:successfull, resource_name: 'login')
+        redirect_to deals_path, notice: t(:successfull, resource_name: 'login')
       else
         redirect_to login_url, notice: t(:verify_email)
       end
