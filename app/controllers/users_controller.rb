@@ -1,27 +1,42 @@
 class UsersController < ApplicationController
-  skip_before_action :authorize, only: [:update]
+  skip_before_action :authorize
+  skip_before_action :restrict_access_to_admin_only, only: [:edit, :update, :show, :destroy]
+  before_action :requested_user, only: [:edit, :show, :update, :destroy]
 
   def index
     @users = User.all
   end
 
   def edit
-    @user = User.new
+  end
+
+  def show
   end
 
   def update
-    user = User.find_by(id: permitted_params[:id])
-    if user.present?
+    if @user.present?
       user.update!(permitted_params)
-      redirect_to deals_url
+      redirect_to users_url, notice: t(:successfull, resource_name: 'updated user')
     else
-      redirect_to login_url, notice: t(:default_error_message)
+      redirect_to edit_user_url, notice: t(:default_error_message)
+    end
+  end
+
+  def destroy
+    if @user.destroy
+      redirect_to sign_up_url, notice: t('successfull', resource_name: 'deleted user')
+    else
+      redirect_to user_url, notice: t(:default_error_message)
     end
   end
 
   private
 
     def permitted_params
-      params.require(:user).permit(:name, :email, :password, :password_confirmation, :verification_token, :id)
+      params.require(:user).permit(:name, :email, :password, :password_confirmation, :verification_token)
+    end
+
+    def requested_user
+      @user = User.find(params[:id])
     end
 end

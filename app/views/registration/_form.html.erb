@@ -1,6 +1,12 @@
+<<<<<<< HEAD
 <%= form_with model: user, url: sign_up_url, method: :post do |form| %>
   <h2>Sign up</h2>
   <%= form.label :name %>
+=======
+<%= form_with model: user, url: submission_url, method: request_method do |form| %>
+  <h2><%= form_title %></h2>
+  <%= form.label :name, 'Name ' %>
+>>>>>>> 1463927 (Modify update and destroy action in user controller and some change in styling and layout)
   <%= form.text_field :name %>
 
   <%= form.label :email %>
@@ -12,9 +18,17 @@
   <%= form.label :password_confirmation %>
   <%= form.password_field :password_confirmation %>
 
-  <button type="submit">Sign up</button>
+  <button type="submit"><%= form_title %></button>
 
+<<<<<<< HEAD
   <p>Already registered?
     <%= link_to t(:login), login_url %>
   </p>
+=======
+  <% if form_title == 'Sign up' %>
+    <p>Already registered?
+      <%= link_to 'Login', login_url %>
+    </p>
+  <% end %>
+>>>>>>> 1463927 (Modify update and destroy action in user controller and some change in styling and layout)
 <% end %>
