@@ -1,6 +1,6 @@
 <div class="deals_container row">
-  <p><%= @notice %></p>
+  <p><%= 'No such deals exist...' if @deals.empty? %></p>
   <% @deals.each do |deal| %>
-    <%= render partial: 'deal', locals: { summarize: true, deal: deal, css_class: nil } %>
+    <%= render partial: 'admin/deals/deal', locals: { summarize: true, deal: deal, css_class: nil } %>
   <% end %>
 </div>

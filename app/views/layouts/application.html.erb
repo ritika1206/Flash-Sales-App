@@ -16,14 +16,14 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   <body>
     <nav>
-      <h4><%= link_to('Flash Sales', live_admin_deals_url) %></h4>
+      <h4><%= link_to('Flash Sales', deals_url(status: 'live')) %></h4>
       <div>
         <% if user_logged_in? %>
-          <%= link_to('Live Deals', live_admin_deals_url) %>
+          <%= link_to('Live Deals', deals_url(status: 'live')) %>
           <% if admin_logged_in? %>
-            <%= link_to('Unpublished Deals', unpublished_admin_deals_url) %>
-            <%= link_to('Published Deals', published_admin_deals_url) %>
-            <%= link_to('Create Deal', new_admin_deal_url) %> 
+            <%= link_to('Unpublished Deals', admin_deals_url(status: 'unpublished')) %>
+            <%= link_to('Published Deals', admin_deals_url(status: 'published')) %>
+            <%= link_to('Create Deal', new_admin_deal_url) %>
           <% end %>
           <%= link_to('Logout', logout_url) %> 
         <% else %>
