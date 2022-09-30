@@ -6,9 +6,9 @@ class User < ApplicationRecord
   validates :name, :email, presence: true
   validates :password, confirmation: true, allow_blank: true
   validates :password, :password_confirmation, presence: true, if: :setting_password?
-  validates :email, format: { with: FlashSales::User::EMAIL_REGEX }
+  validates :email, format: { with: FlashSales::User::EMAIL_REGEX }, uniqueness: true
 
-  after_create_commit :send_verification_email
+  after_create_commit :send_verification_email, unless: :verified_at?
 
   enum role: { user: 'user', admin: 'admin' }
 
