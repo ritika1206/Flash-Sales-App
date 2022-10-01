@@ -24,7 +24,7 @@
     </a>
   </div>
   <div class="deal_detail">
-    <h1><%= link_to(deal.title, admin_deal_url(deal)) %></h1>
+    <h1><%= link_to(deal.title, deal_url(deal)) %></h1>
     <% if summarize %>
       <p><%= deal.description.truncate_words(30) %></p>
     <% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_25_051621) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_01_055248) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -54,6 +54,30 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_25_051621) do
     t.string "status", default: "unpublished"
   end
 
+  create_table "line_items", force: :cascade do |t|
+    t.integer "deal_id", null: false
+    t.integer "order_id", null: false
+    t.integer "quantity"
+    t.integer "discounted_price"
+    t.integer "loyality_discounted_price"
+    t.integer "loyality_discount_percentage"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["deal_id"], name: "index_line_items_on_deal_id"
+    t.index ["order_id"], name: "index_line_items_on_order_id"
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string "status"
+    t.datetime "placed_at"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "discount_price_in_cents"
+    t.integer "loyality_discounted_price"
+    t.index ["user_id"], name: "index_orders_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.string "email"
@@ -68,4 +92,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_25_051621) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "deals", "users", column: "created_by"
+  add_foreign_key "line_items", "deals"
+  add_foreign_key "line_items", "orders"
+  add_foreign_key "orders", "users"
 end

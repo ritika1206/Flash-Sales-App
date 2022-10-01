@@ -23,7 +23,10 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :deals
     resources :users
+    resources :orders
   end
 
   resources :deals, only: [:index, :show]
+
+  resources :orders
 end

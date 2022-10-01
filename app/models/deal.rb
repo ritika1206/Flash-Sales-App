@@ -5,6 +5,7 @@ class Deal < ApplicationRecord
   DATE_DIFFERENCE = 1
   
   has_many_attached :images
+  has_many :line_items
   belongs_to :admin, class_name: "User", optional: true
 
   before_update :restrict_updation

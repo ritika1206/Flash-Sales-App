@@ -1,0 +1,8 @@
+<% if @orders.empty? %>
+  <h3 class='no-order-ack'>No orders created yet...</h3>
+<% end %>
+
+<% @orders.each do |order| %>
+  <h2><%= order %></h2>
+  <h2><%= order.line_items %></h2>
+<% end %>
