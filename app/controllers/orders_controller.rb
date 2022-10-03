@@ -4,13 +4,13 @@ class OrdersController < ApplicationController
   end
 
   def show
+    @order = Order.find(params[:id])
   end
 
   def create
-    order = Order.new(status: 'in_cart', user_id: logged_in_user.id)
-    p order
+    order = Order.find_or_initialize_by(status: 'in_cart', user_id: logged_in_user.id)
     if order.save!
-      p LineItem.create(deal_id: permitted_params[:deal_id], quantity: permitted_params[:quantity], order_id: order.id)
+      LineItem.create!(deal_id: permitted_params[:deal_id], quantity: permitted_params[:quantity], order_id: order.id)
       redirect_to orders_url, notice: t(:successfull, resource_name: 'added deal in the buying list')
     else
       redirect_to deal_url(id: permitted_params[:deal_id]), notice: t(:default_error_message)

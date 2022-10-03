@@ -1,0 +1,35 @@
+.order-price-details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  box-shadow: 0.08vh 0.08vh 2vh 0.08vh #D9D9DA;
+  padding: 2vh;
+  margin-top: 2vh;
+  width: 50%;
+  align-self: center;
+}
+
+.line-item {
+  box-shadow: 0.08vh 0.08vh 2vh 0.08vh #D9D9DA;
+  width: 50%;
+  align-self: center;
+  margin: 2vh;
+  padding: 2vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  p {
+    text-align: left !important;
+    margin: 0.2vh !important;
+    font-size: 2.5vh;
+  }
+  form {
+    margin: 0;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+    button {
+      margin-bottom: 0;
+    }
+  }
+}

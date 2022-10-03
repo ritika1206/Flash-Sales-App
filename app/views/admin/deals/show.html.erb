@@ -1,8 +1,9 @@
 <div class="deals_container single_deal">
   <%= render partial: 'deals/deal', locals: { summarize: false, deal: @deal, css_class: 'show_deal' } %>
 </div>
+<h3 class='desc-head'>Description</h3>
+<p id="deal_desc"><%= @deal.description %></p>
 
-<p id="deal_desc"><i><%= @deal.description %></i></p>
 
 <% if @deal.publishable? %>
   <h4>Publishable</h4>
@@ -16,10 +17,10 @@
   <%= button_to(' Delete Deal', admin_deal_url(@deal), method: :delete, class: "deal_crud_btn") %>
 </div>
 
-<%#= button_to('Buy', orders_url(deal_id: @deal.id), method: :post) if @deal.live? %>
-
-<%= form_with model: Order.new do |form| %>
-  <%= form.text_field :deal_id, value: @deal.id, type: :hidden %>
-  <%= form.number_field :quantity, value: 1, type: :hidden %>
-  <button type='submit'>Buy</button>
+<% if @deal.live? %>
+  <%= form_with model: Order.new, class: 'buy-btn' do |form| %>
+    <%= form.text_field :deal_id, value: @deal.id, type: :hidden %>
+    <%= form.number_field :quantity, value: 1, type: :hidden %>
+    <button type='submit'>Buy</button>
+  <% end %>
 <% end %>

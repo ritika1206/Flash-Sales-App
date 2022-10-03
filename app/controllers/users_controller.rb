@@ -10,6 +10,7 @@ class UsersController < ApplicationController
   end
 
   def show
+    @order = @user.orders.first
   end
 
   def update

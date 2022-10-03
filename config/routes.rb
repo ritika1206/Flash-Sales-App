@@ -29,4 +29,6 @@ Rails.application.routes.draw do
   resources :deals, only: [:index, :show]
 
   resources :orders
+
+  resources :line_items
 end
