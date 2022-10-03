@@ -44,6 +44,8 @@ gem "bootsnap", require: false
 
 gem "letter_opener", "~> 1.8.1", group: :development
 
+gem 'stripe'
+
 # Use Sass to process CSS
 gem "sassc-rails"
 
