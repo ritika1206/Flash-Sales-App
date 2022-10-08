@@ -20,6 +20,7 @@
       <div>
         <% if user_logged_in? %>
           <%= link_to('Live Deals', deals_url(status: 'live'), class: 'nav-link') %>
+          <%= link_to('Past Deals', deals_url(status: 'published'), class: 'nav-link') %>
           <% if admin_logged_in? %>
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -42,7 +43,7 @@
               </div>
             </div>
           <% end %>
-          <%= link_to('My Orders', order_url(logged_in_user.orders.try(:first)), class: 'nav-link') if logged_in_user.orders.present?%>
+          <%= link_to('My Orders', order_url(logged_in_user.orders.find_by(status: 'in_cart')), class: 'nav-link') if logged_in_user.orders.present?%>
           <%= link_to('Profile', user_url(logged_in_user), class: 'nav-link')%>
           <%= link_to('Logout', logout_url, class: 'nav-link') %> 
         <% else %>
