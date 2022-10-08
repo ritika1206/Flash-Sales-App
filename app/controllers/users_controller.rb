@@ -2,10 +2,6 @@ class UsersController < ApplicationController
   skip_before_action :authorize
   before_action :requested_user, only: [:edit, :show, :update, :destroy]
 
-  def index
-    @users = User.all
-  end
-
   def edit
   end
 

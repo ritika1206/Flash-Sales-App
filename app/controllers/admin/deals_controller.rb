@@ -3,6 +3,7 @@ class Admin::DealsController < Admin::BaseController
   
   def index
     @deals = Deal.where(status: params[:status])
+    @status = params[:status]
   end
 
   def new
@@ -10,10 +11,10 @@ class Admin::DealsController < Admin::BaseController
   end
 
   def create
-    p deal_permitted_params
     deal = Deal.new(deal_permitted_params)
+    deal.admin = logged_in_user
 
-    if deal.save
+    if deal.save!
       redirect_to admin_deals_url(status: 'unpublished')
     else
       redirect_to new_admin_deal_url, notice: t(:default_error_message)
@@ -21,6 +22,7 @@ class Admin::DealsController < Admin::BaseController
   end
 
   def show
+    render template: 'admin/deals/show'
   end
 
   def edit
