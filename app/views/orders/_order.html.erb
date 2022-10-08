@@ -1,17 +1,16 @@
 <div class='order-price-details'>
-  <h4>Total discount price: <%= order.discount_price_in_cents %>
-  <h4>Total loyality discount price: <%= order.discount_price_in_cents %>
+  <h4>Total discount price: $<%= to_dollar(order.price) %></h4>
+  <h4>Total loyality discount price: <%= order.discount_price == 0 ? 'N.A' : "$#{to_dollar(order.discount_price)}" %></h4>
+  <% if order.in_cart? %>
+    <%= form_with url: checkout_url(id: order.id), data: { turbo: false } do |form| %>
+      <%= form.hidden_field :order_id, value: order.id %>
+      <button type='submit'>Checkout</button>
+    <% end %>
+  <% else %>
+    <h4>Status: <%= order.status %>
+  <% end %>  
 </div>
 
 <% order.line_items.each do |line_item| %>
-  <div class='line-item'>
-    <div class='line-item-info'>
-      <p><%= link_to line_item.deal.title, deal_url(line_item.deal) %></p>
-      <p>Tax percentage: $<%= line_item.deal.tax_percentage %>%</p>
-      <p>Price: $<%= line_item.deal.price_in_cents %></p>
-      <p>Discount Price: $<%= line_item.deal.discount_price_in_cents %></p>
-      <p>Loyality Discount Price: $<%= line_item.deal.discount_price_in_cents %></p>
-    </div>
-    <%= button_to 'Remove', line_item_url(line_item), method: :delete%>
-  </div>
+  <%= render partial: 'line_items/line_item', locals: { line_item: line_item, in_cart_css: (order.in_cart? ? 'in-cart' : '') } %>
 <% end %>

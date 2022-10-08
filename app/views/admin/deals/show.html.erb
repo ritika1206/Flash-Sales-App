@@ -1,26 +1,14 @@
-<div class="deals_container single_deal">
-  <%= render partial: 'deals/deal', locals: { summarize: false, deal: @deal, css_class: 'show_deal' } %>
-</div>
-<h3 class='desc-head'>Description</h3>
-<p id="deal_desc"><%= @deal.description %></p>
-
+<%= render partial: 'deals/deal_details' %>
 
 <% if @deal.publishable? %>
   <h4>Publishable</h4>
 <% else %>
   <h4>Unpublishable</h4>
 <% end %>
-<h4>Created By<%= @deal.admin %></h4>
-
+<h4>Status: <%= @deal.status %></h4>
+<h4>Created By: <%= link_to @deal.admin.name.capitalize, user_url(@deal.admin) %></h4>
 <div class="deal_crud">
   <%= link_to('Update Deal ', edit_admin_deal_url(@deal)) %>
   <%= button_to(' Delete Deal', admin_deal_url(@deal), method: :delete, class: "deal_crud_btn") %>
 </div>
 
-<% if @deal.live? %>
-  <%= form_with model: Order.new, class: 'buy-btn' do |form| %>
-    <%= form.text_field :deal_id, value: @deal.id, type: :hidden %>
-    <%= form.number_field :quantity, value: 1, type: :hidden %>
-    <button type='submit'>Buy</button>
-  <% end %>
-<% end %>
