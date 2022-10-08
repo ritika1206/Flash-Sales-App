@@ -10,4 +10,13 @@ module ApplicationHelper
   def logged_in_user
     User.find_by(id: cookies.encrypted[:user_id])
   end
+
+  def to_dollar(price)
+    price.try(:/, 100)
+  end
+
+  def live_deal_exist?(deals)
+    return true if deals.first.live?
+
+  end
 end
