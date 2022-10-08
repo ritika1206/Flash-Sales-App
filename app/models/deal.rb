@@ -6,7 +6,8 @@ class Deal < ApplicationRecord
   
   has_many_attached :images
   has_many :line_items
-  belongs_to :admin, class_name: "User", optional: true
+  has_many :orders, through: :line_items
+  belongs_to :admin, class_name: "User", foreign_key: 'created_by'
 
   before_update :restrict_updation
   before_destroy :restrict_deletion
