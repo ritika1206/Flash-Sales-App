@@ -1,0 +1,28 @@
+<%= form_with model: @address do |form| %>
+  <%= form.label :country %>
+  <%= form.text_field :country %>
+
+  <%= form.label :line_1 %>
+  <%= form.text_field :line_1 %>
+
+  <%= form.label :line_2 %>
+  <%= form.text_field :line_2 %>
+
+  <%= form.label :city %>
+  <%= form.text_field :city %>
+
+  <%= form.label :state %>
+  <%= form.text_field :state %>
+
+  <%= form.label :postal_code %>
+  <%= form.text_field :postal_code %>
+
+  <button type='submit'>Submit</button>
+<% end %>
+
+<hr>
+
+<%= form_with model: @address do |form| %>
+  <%= form.collection_select :shipping_address, logged_in_user.addresses.all, :id, :to_s %>
+  <button type='submit'>Submit</button>
+<% end %>
