@@ -1,6 +1,11 @@
 class OrdersController < ApplicationController
+  def index
+    @orders = logged_in_user.orders
+  end
+
   def show
-    @order = logged_in_user.orders.find_by(status: 'in_cart')
+    @order = logged_in_user_cart_order
+    @shipping_address = Address.find_by(id: @order.try(:shipping_address_id))
   end
 
   def create
@@ -12,13 +17,13 @@ class OrdersController < ApplicationController
       if line_item.persisted?
         notice = 'Deal already exist in the buying list'
       else
-        if (order.line_items << line_item).present?
+        if (order.line_items << line_item).include?(line_item)
           notice = t(:successfull, resource_name: 'added deal in the buying list')
         else
           notice = 'Cannot purchase the same deal more than once'
         end
       end
-      redirect_to order_url(order.id), notice: notice
+      redirect_to orders_url, notice: notice
     else
       redirect_to deal_url(id: permitted_params[:deal_id]), notice: t(:default_error_message)
     end
