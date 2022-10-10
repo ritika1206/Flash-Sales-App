@@ -6,10 +6,6 @@ class LineItemsController < ApplicationController
     else
       notice = t(:default_error_message)
     end
-    if admin_logged_in?
-      redirect_to admin_orders_url, notice: notice
-    else
-      redirect_to order_url(line_item.order), notice: notice
-    end
+    redirect_to orders_url, notice: notice
   end
 end
