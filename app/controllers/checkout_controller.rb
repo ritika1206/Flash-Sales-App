@@ -18,6 +18,7 @@ class CheckoutController < ApplicationController
     session = Stripe::Checkout::Session.create({
       line_items: line_items,
       mode: 'payment',
+      billing_address_collection: "auto",
       success_url: CGI.unescape(success_url(checkout_session_id: '{CHECKOUT_SESSION_ID}', order_id: order.id)),
       cancel_url: CGI.unescape(cancel_url(checkout_session_id: '{CHECKOUT_SESSION_ID}', order_id: order.id))
     })
@@ -25,6 +26,7 @@ class CheckoutController < ApplicationController
   end
 
   def success
+    p @transaction
     if @transaction.save
       @order.placed_at = Time.current
       @order.status = 'placed'
@@ -36,6 +38,7 @@ class CheckoutController < ApplicationController
   end
 
   def cancel
+    p @transaction
     if @transaction.save
       @notice = 'Transaction saved successfully'
     else
@@ -57,8 +60,7 @@ class CheckoutController < ApplicationController
       
       if payment_intent
         payment_error = payment_intent.last_payment_error
-        @address = Address.find_or_initialize_by(payment_intent.charges.data.first.billing_details.address.to_h)
-        @address.user_id = @order.user.id
+        @address = Address.find(@order.shipping_address_id)
 
         @transaction = OrderTransaction.new(
           order_id: params[:order_id],
