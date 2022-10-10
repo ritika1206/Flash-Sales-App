@@ -3,6 +3,7 @@ class Order < ApplicationRecord
   belongs_to :user
   has_many :order_transactions, dependent: :destroy
   has_many :deals, through: :line_items
+  belongs_to :shipping_address, class_name: 'Address', optional: true
 
   enum status: { 
     in_cart: 'in_cart',
