@@ -40,4 +40,10 @@ Rails.application.routes.draw do
   end
 
   resources :line_items
+
+  scope :user do
+    resources :address do
+      patch 'shipping', on: :collection
+    end
+  end
 end
