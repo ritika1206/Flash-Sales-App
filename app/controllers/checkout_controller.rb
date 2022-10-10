@@ -26,19 +26,18 @@ class CheckoutController < ApplicationController
   end
 
   def success
-    p @transaction
     if @transaction.save
-      @order.placed_at = Time.current
-      @order.status = 'placed'
-      @order.save
-      @notice = 'Order successfully placed'
+      if @order.update(placed_at: Time.current, status: 'placed')
+        @notice = 'Order successfully placed'
+      else
+        @notice = 'Unable to update order'
+      end
     else
       @notice = t(:default_error_message)
     end
   end
 
   def cancel
-    p @transaction
     if @transaction.save
       @notice = 'Transaction saved successfully'
     else
