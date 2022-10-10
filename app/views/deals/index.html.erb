@@ -12,7 +12,7 @@
     .then(response => response.json())
     .then((data) => {
       for (deal of data) {
-        document.querySelector(`[data-ref="deal_quantity_${deal.id}"]`).innerHTML = deal.quantity
+        document.querySelector(`[data-ref="deal_quantity_${deal.id}"]`).innerHTML = `Quantity: ${deal.quantity}`
       }
     })
   }

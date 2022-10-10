@@ -7,7 +7,7 @@
     <button type='submit'>Submit</button>
   <% end %>
 
-  <% User.all.each do |user| %>
+  <% @users.each do |user| %>
     <% if user.orders.present? %>
       <h3 class='order-head'><%= user.name.capitalize + "'s order details" %></h3>
     <% end %>
