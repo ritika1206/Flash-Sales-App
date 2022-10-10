@@ -63,6 +63,8 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
+  Stripe.api_key = 'sk_test_51LojlYSJxZNlmvYOlBTpdNTBRpZ17mqYG2yuMcKwts39Dg16nKC2azrGOok25HCudmJ8vmSsF7Ctngtqc2KsBOji00CH2Qd6lk'
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

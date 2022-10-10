@@ -1,1 +1,1 @@
-<%= render 'form', user: @user %>
+<%= render partial: 'registration/form', locals: { user: @user, submission_url: sign_up_url, form_title: 'Sign up', request_method: :post } %>

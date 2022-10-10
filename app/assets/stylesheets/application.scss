@@ -46,13 +46,29 @@ body {
       }
     }
     div {
+      display: flex;
+      flex-direction: row;
       margin-top: 1vh;
       a {
-        margin-right: 2vh;
+        margin-right: 2.5vh;
         text-decoration: none;
         color: white;
       }
       a:hover {
+        color: black !important;
+      }
+      .dropdown {
+        margin-top: -0.2vh;
+        .dropdown-toggle {
+          padding: 0.5vh 0.8vh 0.5vh 1.5vh;
+          margin-right: 2vh;
+          margin-bottom: 1vh;
+        }
+      }
+      .nav-link {
+        color: white !important;
+      }
+      .nav-link:hover {
         color: white !important;
       }
     }
@@ -68,5 +84,20 @@ body {
   .email-confirmation {
     margin-top: 7vh;
     align-self: center;
+  }
+  .order-head {
+    margin-top: 7vh;
+    align-self: center;
+  }
+  .dropdown-toggle {
+    background-color: #5c636a;
+    border-color: #5c636a;
+  }
+  .order-pl-ack {
+    margin-top: 3vh;
+  }
+  .go-live-deal {
+    align-self: center;
+    margin-top: 2vh;
   }
 }

@@ -19,15 +19,35 @@
       <h4><%= link_to('Flash Sales', deals_url(status: 'live')) %></h4>
       <div>
         <% if user_logged_in? %>
-          <%= link_to('Live Deals', deals_url(status: 'live')) %>
+          <%= link_to('Live Deals', deals_url(status: 'live'), class: 'nav-link') %>
+          <%= link_to('Past Deals', deals_url(status: 'published'), class: 'nav-link') %>
           <% if admin_logged_in? %>
-            <%= link_to('Unpublished Deals', admin_deals_url(status: 'unpublished')) %>
-            <%= link_to('Published Deals', admin_deals_url(status: 'published')) %>
-            <%= link_to('Create Deal', new_admin_deal_url) %>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Deals
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to('Unpublished Deals', admin_deals_url(status: 'unpublished'), class: "dropdown-item") %>
+                <%= link_to('Published Deals', admin_deals_url(status: 'published'), class: "dropdown-item") %>
+                <%= link_to('Create Deal', new_admin_deal_url, class: "dropdown-item") %>
+              </div>
+            </div>
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Users
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <%= link_to('Create User', new_admin_user_url, class: "dropdown-item") %>
+                <%= link_to('Existing Users', admin_users_url, class: "dropdown-item") %>
+                <%= link_to('All User orders', admin_orders_url, class: "dropdown-item") %>
+              </div>
+            </div>
           <% end %>
-          <%= link_to('Logout', logout_url) %> 
+          <%= link_to('My Orders', orders_url, class: 'nav-link') if logged_in_user.orders.present?%>
+          <%= link_to('Profile', user_url(logged_in_user), class: 'nav-link')%>
+          <%= link_to('Logout', logout_url, class: 'nav-link') %> 
         <% else %>
-          <%= link_to('Login', login_url) unless user_logged_in? %>
+          <%= link_to('Login', login_url, class: 'nav-link') unless user_logged_in? %>
         <% end %>
       </div>
     </nav>

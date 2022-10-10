@@ -30,12 +30,11 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  en:
   login_for_app_access: 'Please login to access the app'
   not_exist: "%{resource_name} does not exist"
   verify_email: 'Please verify email to login'
   default_error_message: 'Something went wrong'
-  successfull: 'Successful %{resource_name}'
+  successfull: "Successfully %{resource_name}"
   invalid: "Invalid %{resource_name}"
   access_prohibitted: 'access_prohibitted'
   new_password: 'New passowrd'

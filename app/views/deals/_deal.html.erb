@@ -24,19 +24,24 @@
     </a>
   </div>
   <div class="deal_detail">
-    <h1><%= link_to(deal.title, admin_deal_url(deal)) %></h1>
+    <% if admin_logged_in? %>
+      <% deal_link = admin_deal_url(deal) %>
+    <% else %>
+      <% deal_link = deal_url(deal) %>
+    <% end %>
+    <h1><%= link_to(deal.title, deal_link) %></h1>
     <% if summarize %>
       <p><%= deal.description.truncate_words(30) %></p>
     <% end %>
     
     <div class="deal_info">
-      <h4>Quantity: <%= deal.quantity %></h4>
+      <h4 data-ref="deal_quantity_<%= deal.id %>">Quantity: <%= deal.quantity %></h4>
       <h4>Tax: <%= deal.tax_percentage %>%</h4>
       <h4>Publish Date: <%=  deal.published_at.to_date%></h4>
     </div>
     <div class="price_detail">
-      <p id="price">$<%= deal.price_in_cents %></p>
-      <p id="d_price">$<%= deal.discount_price_in_cents %></p>
+      <p id="price">$<%= to_dollar deal.price_in_cents %></p>
+      <p id="d_price">$<%= to_dollar deal.discount_price_in_cents %></p>
     </div>
   </div>
 </div>

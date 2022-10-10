@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
           value: user.id,
           expires: cookie_expiration
         }
-        redirect_to deals_path, notice: t(:successfull, resource_name: 'login')
+        redirect_to deals_path(status: 'live'), notice: t(:successfull, resource_name: 'login')
       else
         redirect_to login_url, notice: t(:verify_email)
       end

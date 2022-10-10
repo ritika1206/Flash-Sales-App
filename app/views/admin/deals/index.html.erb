@@ -1,6 +1,1 @@
-<div class="deals_container row">
-  <p><%= 'No such deals exist...' if @deals.empty? %></p>
-  <% @deals.each do |deal| %>
-    <%= render partial: 'admin/deals/deal', locals: { summarize: true, deal: deal, css_class: nil } %>
-  <% end %>
-</div>
+<%= render template: 'deals/index' %>

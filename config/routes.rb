@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :users
+  root to: 'deals#index'
+  resources :users, only: [:edit, :show, :update, :destroy]
 
   controller :verification do
     get 'verify/:verification_token' => :verify, as: :verify_user
@@ -20,9 +21,29 @@ Rails.application.routes.draw do
     get 'logout' => :destroy
   end
 
+  controller :checkout do
+    post 'checkout'
+    get 'success'
+    get 'cancel'
+  end
+
   namespace :admin do
     resources :deals
+    resources :users, only: [:index, :new, :create]
+    resources :orders, only: :index
   end
 
   resources :deals, only: [:index, :show]
+
+  resources :orders do
+    post 'checkout', on: :member
+  end
+
+  resources :line_items
+
+  scope :user do
+    resources :address do
+      patch 'shipping', on: :collection
+    end
+  end
 end
