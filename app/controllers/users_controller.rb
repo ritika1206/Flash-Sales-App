@@ -1,6 +1,7 @@
 class UsersController < ApplicationController
   skip_before_action :authorize
   before_action :requested_user, only: [:edit, :show, :update, :destroy]
+  before_action :restrict_other_user_profile_access, only: :show
 
   def edit
   end
@@ -34,5 +35,9 @@ class UsersController < ApplicationController
 
     def requested_user
       @user = User.find(params[:id])
+    end
+
+    def restrict_other_user_profile_access
+     redirect_to(user_url(logged_in_user), notice: t(:access_prohibitted)) if @user.id != logged_in_user.id && !admin_logged_in?
     end
 end
