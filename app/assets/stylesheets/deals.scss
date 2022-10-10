@@ -35,6 +35,7 @@ h4 {
   display: flex;
   flex-direction: row;
   align-self: center;
+  margin-bottom: 3vh;
   a {
     text-decoration: underline;
     margin-right: 1vh;
@@ -85,7 +86,7 @@ h4 {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-self: center !important;
-  margin-top: 5vh !important;
+  margin-top: 7vh !important;
   margin-bottom: 1vh;
   justify-content: space-evenly;
   .deal {
