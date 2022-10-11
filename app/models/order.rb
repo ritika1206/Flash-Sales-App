@@ -1,18 +1,17 @@
 class Order < ApplicationRecord
+  include ActiveModel::Dirty
+
+  define_attribute_methods
+
   has_many :line_items, dependent: :destroy, after_add: :calculate_price_and_discount_price_on_add, after_remove: :calculate_price_and_discount_price_on_remove, before_add: :prevent_multiple_purchase_of_same_deal, autosave: true
   belongs_to :user
-  has_many :order_transactions, dependent: :destroy
+  has_one :order_transaction, dependent: :destroy
   has_many :deals, through: :line_items
   belongs_to :shipping_address, class_name: 'Address', optional: true
 
-  enum status: { 
-    in_cart: 'in_cart',
-    placed: 'placed',
-    in_transit: 'in_transit',
-    out_for_delivery: 'out_for_delivery',
-    shipped: 'shipped',
-    delivered: 'delivered'
-  }
+  enum status: [ :in_cart, :placed, :in_transit, :out_for_delivery, :shipped, :delivered, :cancelled ]
+
+  after_update :send_status_updation_mail
 
   # validates :discount_price_in_cents, :loyality_discounted_price, numericality: true, allow_blank: true
 
@@ -27,7 +26,7 @@ class Order < ApplicationRecord
 
   def calculate_price_and_discount_price_on_remove(line_item)
     self.price -= line_item.discounted_price
-    self.discount_price -= line_item.loyality_discounted_price
+    self.discount_price-= line_item.loyality_discounted_price
     if self.price == 0
       self.destroy
     else
@@ -44,5 +43,9 @@ class Order < ApplicationRecord
         throw :abort if user_line_item.deal_id == line_item.deal_id
       end
     end
+  end
+
+  def send_status_updation_mail
+    OrderMailer.status_update(self, self.order_transaction).deliver_now
   end
 end
