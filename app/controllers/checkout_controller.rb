@@ -27,7 +27,7 @@ class CheckoutController < ApplicationController
 
   def success
     if @transaction.save
-      if @order.update(placed_at: Time.current, status: 'placed')
+      if @order.update(placed_at: Time.current, status: :placed)
         @notice = 'Order successfully placed'
       else
         @notice = 'Unable to update order'
@@ -64,7 +64,9 @@ class CheckoutController < ApplicationController
         @transaction = OrderTransaction.new(
           order_id: params[:order_id],
           transaction_id: transaction.id,
-          status: payment_intent.status,
+          payment_intent_id: payment_intent.id,
+          amount: transaction.amount_subtotal,
+          status: transaction.payment_status,
           code: payment_error.try(:decline_code),
           reason: payment_error.try(:message),
           payment_mode: payment_intent.payment_method_types.first,

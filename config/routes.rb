@@ -30,7 +30,9 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :deals
     resources :users, only: [:index, :new, :create]
-    resources :orders, only: :index
+    resources :orders, only: :index do
+      patch 'mark_status'
+    end
   end
 
   resources :deals, only: [:index, :show]

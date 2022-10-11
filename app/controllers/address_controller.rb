@@ -15,11 +15,13 @@ class AddressController < ApplicationController
 
   def new
     @address = Address.new
+    @order = Order.find(params[:order_id])
   end
 
   def shipping
-    if logged_in_user_cart_order.update(shipping_address_id: permitted_address_params[:shipping_address_id])
-      redirect_to order_url(logged_in_user_cart_order), notice: t(:successfull, resource_name: 'added shipping address for order')
+    order = Order.find(params[:order_id])
+    if order.update(shipping_address_id: permitted_address_params[:shipping_address_id])
+      redirect_to order_url(order), notice: t(:successfull, resource_name: 'added shipping address for order')
     else
       redirect_to new_address_url, notice: t(:default_error_message)
     end

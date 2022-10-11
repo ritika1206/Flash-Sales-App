@@ -12,7 +12,7 @@ class UsersController < ApplicationController
 
   def update
     if @user.present?
-      user.update!(permitted_params)
+      @user.update(permitted_params)
       redirect_to users_url, notice: t(:successfull, resource_name: 'updated user')
     else
       redirect_to edit_user_url, notice: t(:default_error_message)

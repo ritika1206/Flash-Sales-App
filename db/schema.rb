@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_08_070009) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_10_093556) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -89,18 +89,20 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_08_070009) do
     t.string "reason"
     t.string "payment_mode"
     t.datetime "created_at", precision: nil, null: false
+    t.string "payment_intent_id"
+    t.decimal "amount", precision: 10, scale: 2
     t.index ["order_id"], name: "index_order_transactions_on_order_id"
     t.index ["shipping_address_id"], name: "index_order_transactions_on_shipping_address_id"
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string "status"
+    t.integer "status"
     t.datetime "placed_at"
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "price", default: 0
-    t.integer "discount_price", default: 0
+    t.decimal "discount_price", precision: 10, scale: 2, default: "0.0"
     t.integer "shipping_address_id"
     t.index ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
     t.index ["user_id"], name: "index_orders_on_user_id"

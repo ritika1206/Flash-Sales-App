@@ -4,12 +4,12 @@ class OrdersController < ApplicationController
   end
 
   def show
-    @order = logged_in_user_cart_order
+    @order = Order.find(params[:id])
     @shipping_address = Address.find_by(id: @order.try(:shipping_address_id))
   end
 
   def create
-    order = Order.find_or_initialize_by(status: 'in_cart', user_id: logged_in_user.id)
+    order = Order.find_or_initialize_by(status: :in_cart, user_id: logged_in_user.id)
     deal = Deal.find(permitted_params[:deal_id])
     if order.save
       line_item = LineItem.find_or_initialize_by(deal_id: permitted_params[:deal_id], quantity: permitted_params[:quantity], order_id: order.id, discounted_price: deal.discount_price_in_cents)
