@@ -49,6 +49,11 @@
     <% if @order.placed? %>
       <h4>Placed on: <%= @order.placed_at.to_date %></h4>
     <% end %>
+    <% unless @order.in_cart? || @order.cancelled? %>
+      <%= form_with model: @order, url: order_cancel_url(order_id: @order.id, status: 'cancelled'), method: :patch do %>
+        <button type='submit'>Cancel Order</button>
+      <% end %>
+    <% end %>
   </div>
 </div>
 
