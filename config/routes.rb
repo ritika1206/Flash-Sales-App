@@ -49,4 +49,10 @@ Rails.application.routes.draw do
       patch 'shipping', on: :collection
     end
   end
+
+  namespace :api do
+    namespace :v1 do
+      resources :deals, only: :index
+    end
+  end
 end
