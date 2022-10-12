@@ -5,6 +5,7 @@ class User < ApplicationRecord
   has_many :orders, dependent: :destroy
   has_many :order_transaction, through: :orders
   has_many :addresses, dependent: :destroy
+  has_many :line_items, through: :orders
 
   validates :name, :email, presence: true
   validates :password, confirmation: true, allow_blank: true
