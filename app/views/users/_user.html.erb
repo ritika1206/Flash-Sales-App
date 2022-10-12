@@ -9,6 +9,7 @@
       <h4 class='create-update-info'>Registed on: <%= user.created_at.to_date %>
       <h4 class='create-update-info'>Profile last updated on: <%= user.updated_at.to_date %>
     <% end %>
+    <h5>API Token: <%= user.api_token %></h5>
   </div>
   <% if admin_logged_in? || logged_in_user.id == user.id%>
     <div class='user-crud'>
