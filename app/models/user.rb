@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   has_secure_password
   has_secure_token :verification_token
+  has_secure_token :api_token
+
   has_many :deals, foreign_key: 'created_by'
   has_many :orders, dependent: :destroy
   has_many :order_transaction, through: :orders
