@@ -5,7 +5,7 @@
 <p id="deal_desc"><%= @deal.description %></p>
 
 <% if @deal.live? %>
-  <% if @deal.quantity.zero? %>
+  <% if @deal.current_quantity.zero? %>
     <h4>Sold Out</h4>
   <% else %>
     <%= form_with model: Order.new, class: 'buy-btn' do |form| %>

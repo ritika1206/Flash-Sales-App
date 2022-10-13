@@ -21,7 +21,7 @@ class Order < ApplicationRecord
     self.discount_price += line_item.loyality_discounted_price
     self.save
 
-    line_item.deal.quantity -= 1
+    line_item.deal.current_quantity -= 1
     line_item.deal.save
   end
 
@@ -34,7 +34,7 @@ class Order < ApplicationRecord
       self.save
     end
 
-    line_item.deal.quantity += 1
+    line_item.deal.current_quantity += 1
     line_item.deal.save
   end
 
@@ -48,7 +48,7 @@ class Order < ApplicationRecord
 
   def cancel_and_refund_order
     self.line_items.each do |line_item|
-      line_item.deal.quantity += 1
+      line_item.deal.current_quantity += 1
       line_item.deal.save
     end
     p self.order_transaction

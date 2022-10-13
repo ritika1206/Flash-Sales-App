@@ -14,18 +14,20 @@ class Deal < ApplicationRecord
   after_destroy { |deal| deal.images.purge }
   after_commit :publishable?, unless: ->{ is_publishable }
 
-  validates :title, :description, :price_in_cents, :discount_price_in_cents, :quantity, :tax_percentage, :published_at, presence: true 
+  validates :title, :description, :price_in_cents, :discount_price_in_cents, :initial_quantity, :tax_percentage, :published_at, presence: true 
   validates :title, uniqueness: true
-  validates :price_in_cents, :discount_price_in_cents, :quantity, :tax_percentage, numericality: true
+  validates :price_in_cents, :discount_price_in_cents, :initial_quantity, :tax_percentage, numericality: true
 
   scope :number_of_deals_with_publish_date, ->(date) { where(published_at: date).size }
   scope :live_deals, -> { where(status: 'live') }
   scope :new_live_deals, -> { Deal.where(published_at: Date.today) }
+  scope :published_deals, -> { where(status: 'published') }
+  scope :deals_revenue, -> { published_deals.select(:id, :title, '(initial_quantity - current_quantity) * discount_price_in_cents / 100 AS revenue').order(revenue: :desc) }
 
   enum status: { live: 'live', unpublished: 'unpublished', published: 'published' }
 
   def publishable?
-    return true if images.size >= PUBLISHABLE_DEAL_IMAGE_QUANTITY && quantity > PUBLISHABLE_DEAL_QUANTITY && Deal.number_of_deals_with_publish_date(published_at) <= DEAL_WITH_SAME_PUBLISH_DATE_QUANTITY
+    return true if images.size >= PUBLISHABLE_DEAL_IMAGE_QUANTITY && initial_quantity > PUBLISHABLE_DEAL_QUANTITY && Deal.number_of_deals_with_publish_date(published_at) <= DEAL_WITH_SAME_PUBLISH_DATE_QUANTITY
 
   end
 

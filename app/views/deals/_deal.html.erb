@@ -35,7 +35,7 @@
     <% end %>
     
     <div class="deal_info">
-      <h4 data-ref="deal_quantity_<%= deal.id %>">Quantity: <%= deal.quantity %></h4>
+      <h4 data-ref="deal_quantity_<%= deal.id %>">Quantity: <%= deal.current_quantity %></h4>
       <h4>Tax: <%= deal.tax_percentage %>%</h4>
       <h4>Publish Date: <%=  deal.published_at.to_date%></h4>
     </div>

@@ -13,6 +13,7 @@ class Admin::DealsController < Admin::BaseController
   def create
     deal = Deal.new(deal_permitted_params)
     deal.admin = logged_in_user
+    deal.current_quantity = deal_permitted_params[:initial_quantity]
 
     if deal.save
       redirect_to admin_deals_url(status: 'unpublished')
@@ -46,7 +47,7 @@ class Admin::DealsController < Admin::BaseController
 
   private
     def deal_permitted_params
-      params.require(:deal).permit(:title, :description, :price_in_cents, :discount_price_in_cents, :quantity, :tax_percentage, :published_at, images: [])
+      params.require(:deal).permit(:title, :description, :price_in_cents, :discount_price_in_cents, :initial_quantity, :tax_percentage, :published_at, images: [])
     end
 
     def requested_deal
