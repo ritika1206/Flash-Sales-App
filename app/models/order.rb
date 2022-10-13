@@ -19,7 +19,7 @@ class Order < ApplicationRecord
   def calculate_price_and_discount_price_on_add(line_item)
     self.price += line_item.discounted_price
     self.discount_price += line_item.loyality_discounted_price
-    self.save
+    save
 
     line_item.deal.current_quantity -= 1
     line_item.deal.save
@@ -28,10 +28,10 @@ class Order < ApplicationRecord
   def calculate_price_and_discount_price_on_remove(line_item)
     self.price -= line_item.discounted_price
     self.discount_price-= line_item.loyality_discounted_price
-    if self.price == 0
-      self.destroy
+    if price == 0
+      destroy
     else
-      self.save
+      save
     end
 
     line_item.deal.current_quantity += 1
@@ -39,7 +39,7 @@ class Order < ApplicationRecord
   end
 
   def prevent_multiple_purchase_of_same_deal(line_item)
-    self.user.orders.each do |order|
+    user.orders.each do |order|
       order.line_items.each do |user_line_item|
         throw :abort if user_line_item.deal_id == line_item.deal_id
       end
@@ -47,16 +47,15 @@ class Order < ApplicationRecord
   end
 
   def cancel_and_refund_order
-    self.line_items.each do |line_item|
+    line_items.each do |line_item|
       line_item.deal.current_quantity += 1
       line_item.deal.save
     end
-    p self.order_transaction
-    Stripe::Refund.create({payment_intent: self.order_transaction.payment_intent_id, amount: self.order_transaction.amount.to_i})
-    self.order_transaction.update(status: 'refunded')
+    Stripe::Refund.create({payment_intent: order_transaction.payment_intent_id, amount: order_transaction.amount.to_i})
+    order_transaction.update(status: 'refunded')
   end
 
   def send_status_updation_mail
-    OrderMailer.status_update(self, self.order_transaction).deliver_now
+    OrderMailer.status_update(self, order_transaction).deliver_now
   end
 end

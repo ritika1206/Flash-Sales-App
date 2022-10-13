@@ -36,10 +36,10 @@ class Deal < ApplicationRecord
   end
 
   def restrict_deletion
-    throw :abort if self.less_than_one_day_away_from_publish?
+    throw :abort if less_than_one_day_away_from_publish?
   end
 
   def restrict_updation
-    throw :abort if self.less_than_one_day_away_from_publish? && published_at_changed?
+    throw :abort if less_than_one_day_away_from_publish? && published_at_changed?
   end
 end
