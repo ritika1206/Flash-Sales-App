@@ -12,7 +12,7 @@ module ApplicationHelper
   end
 
   def to_dollar(price)
-    price.try(:/, 100)
+    price.to_f/100 if price.present?
   end
 
   def live_deal_exist?(deals)
