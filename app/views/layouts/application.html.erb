@@ -22,6 +22,7 @@
           <%= link_to('Live Deals', deals_url(status: 'live'), class: 'nav-link') %>
           <%= link_to('Past Deals', deals_url(status: 'published'), class: 'nav-link') %>
           <% if admin_logged_in? %>
+          <%= link_to('Reports', admin_reports_url, class: 'nav-link') %>
             <div class="dropdown">
               <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 Deals

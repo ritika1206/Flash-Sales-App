@@ -33,6 +33,7 @@ Rails.application.routes.draw do
     resources :orders, only: :index do
       patch 'mark_status'
     end
+    resources :reports, only: :index
   end
 
   resources :deals, only: [:index, :show]
@@ -43,6 +44,7 @@ Rails.application.routes.draw do
   end
 
   resources :line_items
+
 
   scope :user do
     resources :address do

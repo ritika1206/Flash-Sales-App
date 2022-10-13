@@ -7,4 +7,8 @@ module FlashSales
   module Mailer
     DEFAULT_EMAIL = 'super@flash.com'
   end
+
+  module Reports
+    DEFAULT_CUSTOMER_EXPENDITIURE_START_DATE = Date.new(2022, 9, 20)
+  end
 end

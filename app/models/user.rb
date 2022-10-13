@@ -16,6 +16,8 @@ class User < ApplicationRecord
 
   after_create_commit :send_verification_email, unless: :verified_at?
 
+  scope :customer_expenditure, -> (from, to) { User.joins(:orders).where('orders.placed_at' => from..to).order(sum_orders_discount_price: :desc).select('users.id', :email, :discount_price).group(:email, 'users.id').sum('orders.discount_price') }
+
   enum role: { user: 'user', admin: 'admin' }
 
   private
