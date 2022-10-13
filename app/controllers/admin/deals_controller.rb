@@ -14,7 +14,7 @@ class Admin::DealsController < Admin::BaseController
     deal = Deal.new(deal_permitted_params)
     deal.admin = logged_in_user
 
-    if deal.save!
+    if deal.save
       redirect_to admin_deals_url(status: 'unpublished')
     else
       redirect_to new_admin_deal_url, notice: t(:default_error_message)

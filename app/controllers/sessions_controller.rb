@@ -3,6 +3,9 @@ class SessionsController < ApplicationController
   
   def new
     @user = User.new
+    if user_logged_in?
+      redirect_to deals_url(status: 'live'), notice: 'Logout to login as other user'
+    end
   end
 
   def create

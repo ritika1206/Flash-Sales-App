@@ -5,8 +5,8 @@ class Deal < ApplicationRecord
   DATE_DIFFERENCE = 1
   
   has_many_attached :images
-  has_many :line_items
-  has_many :orders, through: :line_items
+  has_many :line_items, dependent: :destroy
+  has_many :orders, through: :line_items, dependent: :destroy
   belongs_to :admin, class_name: "User", foreign_key: 'created_by'
 
   before_update :restrict_updation
@@ -35,11 +35,9 @@ class Deal < ApplicationRecord
 
   def restrict_deletion
     throw :abort if self.less_than_one_day_away_from_publish?
-
   end
 
   def restrict_updation
     throw :abort if self.less_than_one_day_away_from_publish? && published_at_changed?
-
   end
 end
