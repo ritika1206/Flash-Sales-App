@@ -39,6 +39,7 @@ Rails.application.routes.draw do
 
   resources :orders do
     post 'checkout', on: :member
+    patch 'cancel'
   end
 
   resources :line_items

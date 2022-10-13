@@ -11,6 +11,7 @@ class Order < ApplicationRecord
 
   enum status: [ :in_cart, :placed, :in_transit, :out_for_delivery, :shipped, :delivered, :cancelled ]
 
+  after_update :cancel_and_refund_order, if: :cancelled?
   after_update :send_status_updation_mail
 
   # validates :discount_price_in_cents, :loyality_discounted_price, numericality: true, allow_blank: true
@@ -43,6 +44,16 @@ class Order < ApplicationRecord
         throw :abort if user_line_item.deal_id == line_item.deal_id
       end
     end
+  end
+
+  def cancel_and_refund_order
+    self.line_items.each do |line_item|
+      line_item.deal.quantity += 1
+      line_item.deal.save
+    end
+    p self.order_transaction
+    Stripe::Refund.create({payment_intent: self.order_transaction.payment_intent_id, amount: self.order_transaction.amount.to_i})
+    self.order_transaction.update(status: 'refunded')
   end
 
   def send_status_updation_mail

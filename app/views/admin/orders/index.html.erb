@@ -1,15 +1,15 @@
+<%= form_with method: :get, url: admin_orders_url do |form| %>
+  <%= form.label :email, 'Search order by user email' %>
+  <%= form.email_field :email %>
+  <button type='submit'>Submit</button>
+<% end %>
+
 <% if @orders.empty? %>
   <h3 class='order-head'>No orders created yet...</h3>
 <% else %>
-  <%= form_with method: :get, url: admin_orders_url do |form| %>
-    <%= form.label :email, 'Search order by user email' %>
-    <%= form.email_field :email %>
-    <button type='submit'>Submit</button>
-  <% end %>
-
   <% @users.each do |user| %>
     <% if user.orders.present? %>
-      <h3 class='order-head'><%= user.name.capitalize + "'s order details" %></h3>
+      <h3 class='order-head'><%= user.name.capitalize + "'s orders" %></h3>
     <% end %>
     <% user.orders.each do |order| %>
       <%= render partial: 'orders/order', locals: { order: order }%>

@@ -11,7 +11,7 @@ class RegistrationController < ApplicationController
     if user.save
       redirect_to login_url, notice: t(:verify_email)
     else
-      redirect_to new_user_url, notice: t(:default_error_message)
+      redirect_to sign_up_url, notice: t(:default_error_message)
     end
   end
 

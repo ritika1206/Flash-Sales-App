@@ -1,4 +1,4 @@
-class OrderMailer < ActionMailer::Base
+class OrderMailer < ApplicationMailer
   def status_update(order, order_transaction)
     @order = order
     @order_transaction = order_transaction
