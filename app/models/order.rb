@@ -12,7 +12,7 @@ class Order < ApplicationRecord
   enum status: [ :in_cart, :placed, :in_transit, :out_for_delivery, :shipped, :delivered, :cancelled ]
 
   after_update :cancel_and_refund_order, if: :cancelled?
-  after_update :send_status_updation_mail
+  after_update :send_status_updation_mail, if: :status_previously_changed?
 
   # validates :discount_price_in_cents, :loyality_discounted_price, numericality: true, allow_blank: true
 
