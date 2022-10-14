@@ -1,4 +1,4 @@
-<%= form_with model: deal, url: admin_deals_url, method: :post do |form| %>
+<%= form_with model: deal, url: url, method: method do |form| %>
   
   <%= form.label :title %>
   <%= form.text_field :title, value: deal.title %>
@@ -16,13 +16,30 @@
   <%= form.number_field :initial_quantity, value: deal.initial_quantity %>
 
   <%= form.label :tax_percentage %>
-  <%= form.number_field :tax_percentage, value: deal.tax_percentage %>
+  <%= form.number_field :tax_percentage, value: deal.tax_percentage, within: FlashSales::Deal::TAX_PERCENTAGE_RANGE %>
 
   <%= form.label :published_at %>
   <%= form.date_field :published_at, value: deal.published_at %>
 
-  <%= form.label :images %>
-  <%= form.file_field :images, multiple: true %>
+  <% if @images.present? %>
+    <h6>Select deal images to be removed:</h6>
+    <div class='img-rem'>
+      <%= fields_for :image_form do |image_form| %>
+        <%= image_form.collection_check_boxes :images_to_be_deleted, deal.images, :id, :filename do |b| %>
+          <div class="img-check-box">
+            <%= b.check_box + b.text %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <h6>Add more Images:</h6>
+  <% end %>
+  <div data-controller='deal-images'>
+    <%= form.label :images %>
+    <%= form.file_field :images, multiple: true, data: { action: "deal-images#addFile" } %>
 
-  <button type="submit">Create Deal</button>
+    <div data-deal-images-target="files"></div>
+  </div>
+
+  <button type="submit"><%= btn_text %></button>
 <% end %>

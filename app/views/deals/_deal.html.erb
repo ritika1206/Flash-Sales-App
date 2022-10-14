@@ -3,6 +3,7 @@
 <% else %>
   <div class="deal col-md-6">
 <% end %>
+<% if deal.images.present? %>
   <div id='corousal-deal-<%= deal.id %>' class="carousel slide" data-ride="carousel" data-interval="3500">
     <div class="carousel-inner">
       <div class="carousel-item active">
@@ -23,6 +24,7 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
+<% end %>
   <div class="deal_detail">
     <% if admin_logged_in? %>
       <% deal_link = admin_deal_url(deal) %>

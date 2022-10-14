@@ -22,6 +22,7 @@ form {
   }
   label {
     margin-bottom: 0.5vh;
+    color: #3b3b3b;
   }
   button {
     background-color: #3C9DBE;
@@ -39,5 +40,21 @@ form {
   p {
     align-self: center;
     font-size: 2vh;
+  }
+  .img-rem {
+    display: inline;
+    margin-bottom: 1vh;
+    .img-check-box {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      input {
+        margin-bottom: 0;
+        margin-right: 1vh;
+      }
+    }
+  }
+  h6 {
+    color: #3b3b3b;
   }
 }

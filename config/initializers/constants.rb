@@ -11,4 +11,8 @@ module FlashSales
   module Reports
     DEFAULT_CUSTOMER_EXPENDITIURE_START_DATE = Date.new(2022, 9, 20)
   end
+
+  module Deal
+    TAX_PERCENTAGE_RANGE = 0..12
+  end
 end
