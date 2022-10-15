@@ -20,7 +20,7 @@
     <h4>Order status: <%= @order.status.titleize %></h4>
   </div>
   <div class='order-detail-row'>
-    <% if admin_logged_in? %>
+    <% if admin_logged_in? && !@order.in_cart?%>
       <%= form_with model: @order, url: admin_order_mark_status_url(order_id: @order.id), method: :patch, class: 'order-status-select' do |form| %>
         <%= form.label :status, 'Mark status as:' %>
         <%= form.select :status, Order.statuses.keys.map(&:titleize), selected: @order.status.titleize %>
