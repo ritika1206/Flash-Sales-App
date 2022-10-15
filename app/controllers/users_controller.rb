@@ -7,7 +7,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    @order = @user.orders.first
+    @orders = @user.orders
   end
 
   def update
@@ -21,7 +21,11 @@ class UsersController < ApplicationController
 
   def destroy
     if @user.destroy
-      redirect_to sign_up_url, notice: t('successfull', resource_name: 'deleted user')
+      if admin_logged_in?
+        redirect_to admin_users_url, notice: t('successfull', resource_name: 'deleted user')
+      else
+        redirect_to sign_up_url, notice: t('successfull', resource_name: 'deleted user')
+      end
     else
       redirect_to user_url, notice: t(:default_error_message)
     end
