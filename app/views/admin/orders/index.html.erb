@@ -4,7 +4,7 @@
   <button type='submit'>Submit</button>
 <% end %>
 
-<% if @orders.empty? %>
+<% if @orders.blank? %>
   <h3 class='order-head'>No orders created yet...</h3>
 <% else %>
   <% @users.each do |user| %>
