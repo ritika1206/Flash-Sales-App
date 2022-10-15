@@ -4,7 +4,7 @@ class Admin::OrdersController < Admin::BaseController
     @users = User.all
     if params[:email].present?
       @users = [User.find_by(email: params[:email])]
-      @orders = @users.first.orders
+      @orders = @users.first.try(:orders)
     end
   end
 
