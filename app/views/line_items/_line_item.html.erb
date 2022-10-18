@@ -4,7 +4,8 @@
     <p>Tax percentage: <%= line_item.deal.tax_percentage %>%</p>
     <p>Price: $<%= to_dollar(line_item.deal.price_in_cents) %></p>
     <p>Discount Price: $<%= to_dollar(line_item.discounted_price) %></p>
-    <p>Loyality Discount Price: <%= line_item.loyality_discounted_price == 0 ? '-' : "$#{to_dollar(line_item.loyality_discounted_price)}"%></p>
+    <p>Loyality Discount Price: $<%= to_dollar(line_item.loyality_discounted_price) %></p>
+    <p>Net Price after tax: $<%= to_dollar(line_item.net_price_after_tax) %></p>
   </div>
   <% if line_item.order.in_cart? %>
     <%= button_to 'Remove', line_item_url(line_item), method: :delete%>

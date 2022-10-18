@@ -2,6 +2,7 @@
   <div class='order-detail-row'>
     <h4>Total discount price: $<%= to_dollar(order.price) %></h4>
     <h4>Total loyality discount price: <%= order.discount_price == 0 ? 'N.A' : "$#{to_dollar(order.discount_price)}" %></h4>
+    <h4>Price after tax: $<%= to_dollar(order.price_after_tax) %></h4>
     <h4>Line Items count: <%= order.line_items.count %></h4>
     <%= link_to 'View details', order_url(id: order.id) %>
   </div>
