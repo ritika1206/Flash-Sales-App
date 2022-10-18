@@ -12,7 +12,7 @@ class Deal < ApplicationRecord
   has_many_attached :images
   has_many :line_items, dependent: :destroy
   has_many :orders, through: :line_items, dependent: :destroy
-  belongs_to :admin, class_name: "User", foreign_key: 'created_by'
+  belongs_to :created_by, class_name: "User", foreign_key: 'created_by'
 
   before_update :restrict, if: ->(deal) { deal.less_than_one_day_away_from_publish? && (deal.status_change.try(:last) == 'deleted' || deal.published_at_changed?) }
   before_update :set_current_quantity

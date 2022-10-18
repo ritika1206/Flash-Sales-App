@@ -7,7 +7,7 @@
 <% end %>
 <h4>Status: <%= @deal.status %></h4>
 <% if @deal.try(:admin).present? %>
-  <h4>Created By: <%= link_to @deal.admin.name.capitalize, user_url(@deal.admin) %></h4>
+  <h4>Created By: <%= link_to @deal.created_by.name.capitalize, user_url(@deal.created_by) %></h4>
 <% end %>
 <div class="deal_crud">
   <%= link_to('Update Deal ', edit_admin_deal_url(@deal)) %>

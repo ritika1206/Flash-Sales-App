@@ -15,7 +15,7 @@ class Admin::DealsController < Admin::BaseController
   def create
     @deal = Deal.new(deal_permitted_params)
     set_images
-    @deal.admin = logged_in_user
+    @deal.created_by = logged_in_user
     @deal.current_quantity = deal_permitted_params[:initial_quantity]
 
     if @deal.save
