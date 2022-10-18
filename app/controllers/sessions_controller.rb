@@ -33,6 +33,7 @@ class SessionsController < ApplicationController
   end
 
   private
+  
     def permitted_params
       params.require(:user).permit(:email, :password, :remember_me)
     end
