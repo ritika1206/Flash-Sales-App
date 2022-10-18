@@ -13,6 +13,6 @@ module FlashSales
   end
 
   module Deal
-    TAX_PERCENTAGE_RANGE = 0..12
+    TAX_PERCENTAGE_RANGE = 0..28
   end
 end
