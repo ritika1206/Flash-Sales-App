@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   NAME_REGEX = /\A[A-Z]+\z/i
   EMAIL_REGEX = /\A(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})\z/i
-  MIN_PASSWORD_LENGTH = 6
+  PASSWORD_LENGTH_RANGE = 6..20
   MIN_NAME_LENGTH = 3
 
   has_secure_password
@@ -16,7 +16,7 @@ class User < ApplicationRecord
 
   validates :name, :email, presence: true
   validates :password, confirmation: true
-  validates :password, length: { minimum: MIN_PASSWORD_LENGTH }, allow_blank: true
+  validates :password, length: { in: PASSWORD_LENGTH_RANGE }, allow_blank: true
   validates :password, :password_confirmation, presence: true, if: :setting_password?
   validates :email, format: { with: EMAIL_REGEX, message: 'invalid format' }, uniqueness: { case_sensitive: false }, allow_blank: true
   validates :name, format: { with: NAME_REGEX, message: 'can only contain alphabets' }, length: { minimum: MIN_NAME_LENGTH }, allow_blank: true
