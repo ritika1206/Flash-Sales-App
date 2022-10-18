@@ -1,9 +1,19 @@
 <div class="deals_container row">
-  <% if @status == 'live' && @deals.present? && !@deals.first.live? %>
+  <% if @deals.present? %>
+    <% if @status == 'live'%>
+      <% if !@deals.first.live? %>
+        <p>No <%= @status %> deals exist...</p>
+        <p>Recent Deals</p>
+      <% else %>
+        <p>Live Deals</p>
+      <% end %>
+    <% else %>
+      <p><%= @status == 'deleted' ? 'Archieved' : @status.capitalize %> Deals<p>
+    <% end %>
+    <%= render(partial: 'deals/deal', collection: @deals, locals: { summarize: true, css_class: nil }) %>
+  <% else %>
     <p>No <%= @status %> deals exist...</p>
-    <p>Recent Deals</p>
   <% end %>
-  <%= render(partial: 'deals/deal', collection: @deals, locals: { summarize: true, css_class: nil }) || sanitize("<p>No #{@status} deals exist...</p>") %>
 </div>
 
 <script>
