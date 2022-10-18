@@ -6,7 +6,7 @@ class Admin::ReportsController < Admin::BaseController
     @minimum_potential_deal = @deals_revenue.last
 
     if params[:to].present? || params[:from].present?
-      p @customers_expenditure = User.customer_expenditure(params[:from].to_date, params[:to].to_date + 1)
+      @customers_expenditure = User.customer_expenditure(params[:from].to_date, params[:to].to_date + 1)
     else
       @default_start_date = FlashSales::Reports::DEFAULT_CUSTOMER_EXPENDITIURE_START_DATE
       @default_end_date = Date.today
