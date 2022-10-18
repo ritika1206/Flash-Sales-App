@@ -8,7 +8,7 @@
         <p>Live Deals</p>
       <% end %>
     <% else %>
-      <p><%= @status == 'deleted' ? 'Archieved' : @status.capitalize %> Deals<p>
+      <p><%= @status == 'deleted' ? 'Archived' : @status.capitalize %> Deals<p>
     <% end %>
     <%= render(partial: 'deals/deal', collection: @deals, locals: { summarize: true, css_class: nil }) %>
   <% else %>
