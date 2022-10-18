@@ -25,10 +25,10 @@
 <%= form_with url: admin_reports_url, method: :get, class: 'exp-search' do |form| %>
   <h5>Search Customer Expenditure within a date range</h5>
   <%= form.label :from, 'From date'%>
-  <%= form.date_field :from, value: @default_start_date %>
+  <%= form.date_field :from, value: params[:from] || @default_start_date %>
 
   <%= form.label :to, 'To date'%>
-  <%= form.date_field :to, value: @default_end_date %>
+  <%= form.date_field :to, value: params[:to] || @default_end_date %>
 
   <button type='submit'>Search</button>
 <% end %>
