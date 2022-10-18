@@ -56,7 +56,8 @@ class Admin::DealsController < Admin::BaseController
     end
 
     def deal_in_params
-      @deal = Deal.find(params[:id])
+      @deal = Deal.find_by(params[:id])
+      redirect_to admin_deals_url(status: 'live'), alert: 'Unable to find deal' if @deal.blank?
     end
 
     def set_images
