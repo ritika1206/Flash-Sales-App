@@ -1,7 +1,8 @@
 class AddressController < ApplicationController
+  before_action :order_in_params, only: [:new, :shipping]
+
   def new
     @address = Address.new
-    @order = Order.find_by(id: params[:order_id])
   end
 
   def create
@@ -22,9 +23,8 @@ class AddressController < ApplicationController
   end
 
   def shipping
-    order = Order.find(params[:order_id])
-    if order.update(shipping_address_id: permitted_address_params[:shipping_address_id])
-      redirect_to order_url(order), notice: t(:successful, resource_name: 'added shipping address for order')
+    if @order.update(shipping_address_id: permitted_address_params[:shipping_address_id])
+      redirect_to order_url(@order), notice: t(:successful, resource_name: 'added shipping address for order')
     else
       redirect_to new_address_url, alert: t(:default_error_message)
     end
@@ -34,5 +34,10 @@ class AddressController < ApplicationController
 
     def permitted_address_params
       params.require(:address).permit(:country, :city, :state, :line1, :line2, :postal_code, :shipping_address_id)
+    end
+
+    def order_in_params
+      @order = Order.find_by(id: params[:order_id])
+      redirect_to orders_url, alert: 'Order not found' if @order.blank?
     end
 end
