@@ -15,7 +15,7 @@ class Admin::DealsController < Admin::BaseController
   def create
     @deal = Deal.new(deal_permitted_params)
     set_images
-    @deal.created_by = logged_in_user
+    @deal.creator = logged_in_user
     @deal.current_quantity = deal_permitted_params[:initial_quantity]
 
     if @deal.save
@@ -55,7 +55,7 @@ class Admin::DealsController < Admin::BaseController
     end
 
     def deal_in_params
-      @deal = Deal.find_by(params[:id])
+      @deal = Deal.find_by(id: params[:id])
       redirect_to admin_deals_url(status: 'live'), alert: 'Unable to find deal' if @deal.blank?
     end
 

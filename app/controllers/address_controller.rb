@@ -1,7 +1,7 @@
 class AddressController < ApplicationController
   def new
     @address = Address.new
-    @order = Order.find_by(params[:order_id])
+    @order = Order.find_by(id: params[:order_id])
   end
 
   def create

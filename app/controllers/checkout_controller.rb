@@ -83,6 +83,6 @@ class CheckoutController < ApplicationController
     end
 
     def order_in_params
-      @order = Order.find_by(params[:id])
+      @order = Order.find_by(id: params[:id])
     end
 end
