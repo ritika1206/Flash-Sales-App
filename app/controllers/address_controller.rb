@@ -1,7 +1,7 @@
 class AddressController < ApplicationController
   def new
     @address = Address.new
-    @order = Order.find(params[:order_id])
+    @order = Order.find_by(params[:order_id])
   end
 
   def create
@@ -11,8 +11,11 @@ class AddressController < ApplicationController
 
     if @address.save
       @order.shipping_address_id = @address.id
-      @order.save
-      redirect_to order_url(@order), notice: t(:successful, resource_name: 'added shipping address for order')
+      if @order.save
+        redirect_to order_url(@order), notice: t(:successful, resource_name: 'added shipping address for order')
+      else
+        redirect_to new_address_url, alert: "Unable to save shipping address for the order"
+      end
     else
       render :new, status: :unprocessable_entity
     end
