@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_13_050941) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_17_052925) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -77,6 +77,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_050941) do
     t.integer "loyality_discount_percentage"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.decimal "net_price_after_tax", precision: 10, scale: 2, default: "0.0"
     t.index ["deal_id"], name: "index_line_items_on_deal_id"
     t.index ["order_id"], name: "index_line_items_on_order_id"
   end
@@ -84,7 +85,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_050941) do
   create_table "order_transactions", force: :cascade do |t|
     t.integer "order_id", null: false
     t.string "transaction_id"
-    t.string "status"
+    t.integer "status"
     t.integer "shipping_address_id", null: false
     t.string "code"
     t.string "reason"
@@ -105,6 +106,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_13_050941) do
     t.integer "price", default: 0
     t.decimal "discount_price", precision: 10, scale: 2, default: "0.0"
     t.integer "shipping_address_id"
+    t.decimal "price_after_tax", precision: 10, scale: 2, default: "0.0"
     t.index ["shipping_address_id"], name: "index_orders_on_shipping_address_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
   end
