@@ -18,8 +18,11 @@ class Admin::OrdersController < Admin::BaseController
       if permitted_params[:status] == 'In Cart'
         redirect_to order_url(id: params[:order_id]), alert: 'Update not allowed'
       else
-        order.update(status: permitted_params[:status].parameterize(separator: '_'))
-        redirect_to order_url(id: params[:order_id]), notice: t(:successful, resource_name: 'updated order status')
+        if order.update(status: permitted_params[:status].parameterize(separator: '_'))
+          redirect_to order_url(id: params[:order_id]), notice: t(:successful, resource_name: 'updated order status')
+        else
+          redirect_to order_url(id: params[:order_id]), notice: 'Unable to update status'
+        end
       end
     else
       redirect_to order_url(id: params[:order_id]), alert: 'Update not allowed'
