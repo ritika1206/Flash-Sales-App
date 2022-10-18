@@ -57,4 +57,17 @@ form {
   h6 {
     color: #3b3b3b;
   }
+  .field_with_errors {
+    input, textarea {
+      width: 100%;
+      border-color: red;
+    }
+    p {
+      color: red;
+      text-align: left !important;
+      font-size: 1.3vh;
+      margin-top: -1.1vh !important;
+      margin-bottom: 1.5vh !important;
+    }
+  }
 }

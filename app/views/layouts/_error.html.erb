@@ -1,0 +1,6 @@
+<% errors = entity.errors.as_json(full_messages: true) %>
+<% if errors[attr].present? %>
+  <div class='field_with_errors'>
+    <p><%= errors[attr].join(', ') %></p>
+  </div>
+<% end %>

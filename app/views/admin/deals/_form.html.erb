@@ -1,25 +1,33 @@
 <%= form_with model: deal, url: url, method: method do |form| %>
-  
+  <% errors = deal.errors.as_json(full_messages: true) %> 
+
   <%= form.label :title %>
   <%= form.text_field :title, value: deal.title %>
+  <%= render partial: 'layouts/error', locals: { attr: :title, entity: deal }%>
 
   <%= form.label :description %>
   <%= form.text_area :description, value: deal.description %>
+  <%= render partial: 'layouts/error', locals: { attr: :description, entity: deal }%>
 
   <%= form.label :price_in_cents %>
   <%= form.number_field :price_in_cents, value: deal.price_in_cents %>
+  <%= render partial: 'layouts/error', locals: { attr: :price_in_cents, entity: deal }%>
 
   <%= form.label :discount_price_in_cents %>
   <%= form.number_field :discount_price_in_cents, value: deal.discount_price_in_cents %>
+  <%= render partial: 'layouts/error', locals: { attr: :discount_price_in_cents, entity: deal }%>
 
   <%= form.label :initial_quantity %>
   <%= form.number_field :initial_quantity, value: deal.initial_quantity %>
+  <%= render partial: 'layouts/error', locals: { attr: :initial_quantity, entity: deal }%>
 
   <%= form.label :tax_percentage %>
-  <%= form.number_field :tax_percentage, value: deal.tax_percentage, within: FlashSales::Deal::TAX_PERCENTAGE_RANGE %>
+  <%= form.number_field :tax_percentage, value: deal.tax_percentage, within: FlashSales::Deal::TAX_PERCENTAGE_RANGE, step: 0.1 %>
+  <%= render partial: 'layouts/error', locals: { attr: :tax_percentage, entity: deal }%>
 
   <%= form.label :published_at %>
   <%= form.date_field :published_at, value: deal.published_at %>
+  <%= render partial: 'layouts/error', locals: { attr: :published_at, entity: deal }%>
 
   <% if @images.present? %>
     <h6>Select deal images to be removed:</h6>

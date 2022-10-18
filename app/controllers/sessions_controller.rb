@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   def new
     @user = User.new
     if user_logged_in?
-      redirect_to deals_url(status: 'live'), notice: 'Logout to login as other user'
+      redirect_to deals_url(status: 'live'), alert: 'Logout to login as other user'
     end
   end
 
@@ -18,18 +18,18 @@ class SessionsController < ApplicationController
           value: user.id,
           expires: cookie_expiration
         }
-        redirect_to deals_path(status: 'live'), notice: t(:successfull, resource_name: 'login')
+        redirect_to deals_path(status: 'live'), notice: t(:successful, resource_name: 'login')
       else
-        redirect_to login_url, notice: t(:verify_email)
+        redirect_to login_url, alert: t(:verify_email)
       end
     else
-      redirect_to login_url, notice: t(:invalid, resource_name: 'credentials')
+      redirect_to login_url, alert: t(:invalid, resource_name: 'credentials')
     end
   end
 
   def destroy
     cookies.delete(:user_id)
-    redirect_to login_url, notice: t(:successfull, resource_name: 'logout')
+    redirect_to login_url, notice: t(:successful, resource_name: 'logout')
   end
 
   private

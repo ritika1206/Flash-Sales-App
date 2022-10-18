@@ -7,8 +7,12 @@ class PasswordsController < ApplicationController
 
   def forgot_password_verify_email
     @user = User.find_by(email: permitted_params[:email])
-    render 'email_confirmation'
-    UserMailer.verify_email_for_forgot_password(@user).deliver_now
+    if @user.present?
+      UserMailer.verify_email_for_forgot_password(@user).deliver_now
+      render 'email_confirmation'
+    else
+      redirect_to new_password_url, alert: t(:default_error_message)
+    end
   end
 
   def edit
@@ -16,12 +20,11 @@ class PasswordsController < ApplicationController
   end
 
   def update
-    user = User.find_by(verification_token: params[:verification_token])
-    if user.present?
-      user.update!(permitted_params)
-      redirect_to deals_url
+    @user = User.find_by(verification_token: params[:verification_token])
+    if @user.update(permitted_params)
+      redirect_to deals_url(status: 'live'), notice: t(:successful, resource_name: 'set new password')
     else
-      redirect_to user_email_url, notice: t(:not_exist, resource_name: 'User')
+      render :edit, status: :unprocessable_entity
     end
   end
 

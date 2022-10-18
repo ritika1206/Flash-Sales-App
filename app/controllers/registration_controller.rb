@@ -6,12 +6,12 @@ class RegistrationController < ApplicationController
   end
 
   def create
-    user = User.new(permitted_params)
+    @user = User.new(permitted_params)
 
-    if user.save
-      redirect_to login_url, notice: t(:verify_email)
+    if @user.save
+      redirect_to login_url, alert: t(:verify_email)
     else
-      redirect_to sign_up_url, notice: t(:default_error_message)
+      render :new, status: :unprocessable_entity
     end
   end
 

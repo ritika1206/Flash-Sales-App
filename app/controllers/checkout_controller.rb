@@ -7,7 +7,7 @@ class CheckoutController < ApplicationController
     order.line_items.each do |line_item|
       line_items << {
         price: Stripe::Price.create({
-          unit_amount: line_item.deal.discount_price_in_cents,
+          unit_amount: line_item.net_price_after_tax.round,
           currency: 'usd',
           product: Stripe::Product.create({ name: line_item.deal.title }).id,
         }).id,
@@ -26,23 +26,23 @@ class CheckoutController < ApplicationController
   end
 
   def success
+    @css_class = ''
     if @transaction.save
       if @order.update(placed_at: Time.current, status: :placed)
-        @notice = 'Order successfully placed'
+        @notice = t(:successful, resource_name: 'placed order')
+        @css_class = 'notice'
       else
         @notice = 'Unable to update order'
+        @css_class = 'alert'
       end
     else
       @notice = t(:default_error_message)
+      @css_class = 'alert'
     end
   end
 
   def cancel
-    if @transaction.save
-      @notice = 'Transaction saved successfully'
-    else
-      @notice = @transaction.reason
-    end
+    @transaction.save
   end
 
   private

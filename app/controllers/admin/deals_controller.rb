@@ -19,9 +19,9 @@ class Admin::DealsController < Admin::BaseController
     @deal.current_quantity = deal_permitted_params[:initial_quantity]
 
     if @deal.save
-      redirect_to admin_deals_url(status: 'unpublished')
+      redirect_to admin_deals_url(status: 'unpublished'), notice: t(:successful, resource_name: 'created deal')
     else
-      redirect_to new_admin_deal_url, notice: t(:default_error_message)
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -35,17 +35,17 @@ class Admin::DealsController < Admin::BaseController
 
   def update
     if @deal.update(deal_permitted_params)
-      redirect_to admin_deal_url(@deal), notice: t(:successfull, resource_name: 'updated deal')
+      redirect_to admin_deal_url(@deal), notice: t(:successful, resource_name: 'updated deal')
     else
-      redirect_to admin_deals_url(status: 'unpublished'), notice: t(:default_error_message)
+      render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
-    if @deal.destroy
-      redirect_to admin_deals_url(status: 'unpublished'), notice: t(:successfull, resource_name: 'destroyed deal')
+    if @deal.update(status: 'deleted')
+      redirect_to admin_deals_url(status: 'deleted'), notice: t(:successful, resource_name: 'deleted deal')
     else
-      redirect_to admin_deal_url(@deal), notice: t(:default_error_message)
+      redirect_to admin_deals_url(status: 'live'), alert: 'Unable to delete deal'
     end
   end
 

@@ -5,6 +5,6 @@ class ApplicationController < ActionController::Base
 
   private
     def authorize
-      redirect_to login_url, notice: t(:login_for_app_access) unless user_logged_in?
+      redirect_to login_url, alert: t(:login_for_app_access) unless user_logged_in?
     end
 end
