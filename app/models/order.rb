@@ -5,7 +5,7 @@ class Order < ApplicationRecord
 
   has_many :line_items, dependent: :destroy, after_add: :calculate_price_and_discount_price_on_add, after_remove: :calculate_price_and_discount_price_on_remove, before_add: :prevent_multiple_purchase_of_same_deal, autosave: true
   belongs_to :user
-  has_one :order_transaction, dependent: :destroy
+  has_many :order_transactions, dependent: :destroy
   has_many :deals, through: :line_items
   belongs_to :shipping_address, class_name: 'Address', optional: true
 
@@ -53,15 +53,16 @@ class Order < ApplicationRecord
   end
 
   def cancel_and_refund_order
+    latest_transaction = order_transactions.last
     line_items.each do |line_item|
       line_item.deal.current_quantity += 1
       line_item.deal.save
     end
-    Stripe::Refund.create({payment_intent: order_transaction.payment_intent_id, amount: order_transaction.amount.to_i})
-    order_transaction.update(status: 'refunded')
+    Stripe::Refund.create({payment_intent: latest_transaction.payment_intent_id, amount: latest_transaction.amount.to_i})
+    latest_transaction.update(status: 'refunded')
   end
 
   def send_status_updation_mail
-    OrderMailer.status_update(self, order_transaction).deliver_now
+    OrderMailer.status_update(self, order_transactions.last).deliver_now
   end
 end

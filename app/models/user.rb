@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   has_many :deals, foreign_key: 'created_by', dependent: :nullify
   has_many :orders, dependent: :destroy
-  has_many :order_transaction, through: :orders
+  has_many :order_transactions, through: :orders
   has_many :addresses, dependent: :destroy
   has_many :line_items, through: :orders
 
