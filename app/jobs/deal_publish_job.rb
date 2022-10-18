@@ -2,6 +2,6 @@ class DealPublishJob < ApplicationJob
   queue_as :default
 
   def perform
-    rake deal:publish_and_unpublish
+    rake deal:update_live_status
   end
 end

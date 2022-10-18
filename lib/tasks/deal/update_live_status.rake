@@ -1,6 +1,6 @@
 namespace :deal do
   desc 'Publishing new deals scheduled to be published on current day and unpublishing old deals which were live'
-  task :publish_and_unpublish => [:environment] do
+  task :update_live_status => [:environment] do
     Deal.live_deals.each do |live_deal|
       live_deal.update(status: 'published') if live_deal.published_at != Date.today
     end
