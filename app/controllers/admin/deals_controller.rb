@@ -1,5 +1,5 @@
 class Admin::DealsController < Admin::BaseController
-  before_action :requested_deal, only: [:show, :edit, :destroy, :update]
+  before_action :deal_in_params, only: [:show, :edit, :destroy, :update]
   before_action :destroy_images, only: :update
   before_action :set_images, only: :update
   
@@ -55,7 +55,7 @@ class Admin::DealsController < Admin::BaseController
       params.require(:deal).permit(:title, :description, :price_in_cents, :discount_price_in_cents, :initial_quantity, :tax_percentage, :published_at)
     end
 
-    def requested_deal
+    def deal_in_params
       @deal = Deal.find(params[:id])
     end
 
