@@ -1,5 +1,6 @@
 class Admin::OrdersController < Admin::BaseController
-  before_action :order_transaction_for_order_in_params, only: [:mark_status]
+  before_action :latest_order_transaction_for_order_in_params, only: [:mark_status]
+  before_action :order_in_params, only: [:mark_status]
 
   def index
     @orders = Order.all
@@ -11,9 +12,6 @@ class Admin::OrdersController < Admin::BaseController
   end
 
   def mark_status
-    @order_transaction = OrderTransaction.find_by(order_id: params[:order_id])
-    order = Order.find(params[:order_id])
-
     if @order_transaction.paid?
       if permitted_params[:status] == 'In Cart'
         redirect_to order_url(id: params[:order_id]), alert: 'Update not allowed'
@@ -35,8 +33,12 @@ class Admin::OrdersController < Admin::BaseController
       params.require(:order).permit(:status)
     end
 
-    def order_transaction_for_order_in_params
-      @order_transaction = OrderTransaction.find_by(order_id: params[:order_id])
+    def latest_order_transaction_for_order_in_params
+      @order_transaction = OrderTransaction.latest_transaction(params[:order_id])
       redirect_to admin_orders_url, alert: 'No transaction exist for the order' if @order_transaction.blank?
+    end
+
+    def order_in_params
+      @order = Order.find_by(params[id: :order_id])
     end
 end
