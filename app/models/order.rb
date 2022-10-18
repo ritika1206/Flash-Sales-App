@@ -11,31 +11,37 @@ class Order < ApplicationRecord
 
   enum status: [ :in_cart, :placed, :in_transit, :out_for_delivery, :shipped, :delivered, :cancelled ]
 
-  after_update :cancel_and_refund_order, if: :cancelled?
+  after_update :cancel_and_refund_order, if: [:cancelled?, ->(order) { order.status_previously_was != 'cancelled' }]
   after_update :send_status_updation_mail, if: :status_previously_changed?
-
-  # validates :discount_price_in_cents, :loyality_discounted_price, numericality: true, allow_blank: true
 
   def calculate_price_and_discount_price_on_add(line_item)
     self.price += line_item.discounted_price
     self.discount_price += line_item.loyality_discounted_price
+    self.price_after_tax += line_item.net_price_after_tax
+
     save
 
-    line_item.deal.current_quantity -= 1
-    line_item.deal.save
+    if line_item.deal.live?
+      line_item.deal.current_quantity -= 1
+      line_item.deal.save
+    end
   end
 
   def calculate_price_and_discount_price_on_remove(line_item)
     self.price -= line_item.discounted_price
     self.discount_price-= line_item.loyality_discounted_price
+    self.price_after_tax -= line_item.net_price_after_tax
+
     if price == 0
       destroy
     else
       save
     end
 
-    line_item.deal.current_quantity += 1
-    line_item.deal.save
+    if line_item.deal.live?
+      line_item.deal.current_quantity += 1
+      line_item.deal.save
+    end
   end
 
   def prevent_multiple_purchase_of_same_deal(line_item)
