@@ -11,7 +11,8 @@ class PasswordsController < ApplicationController
       UserMailer.verify_email_for_forgot_password(@user).deliver_now
       render 'email_confirmation'
     else
-      redirect_to new_password_url, alert: t(:default_error_message)
+      permitted_params[:email].blank? ? (flash[:alert] = 'Please provide an email') : flash[:alert] = 'Email does not exist'
+      redirect_to new_password_url
     end
   end
 
@@ -22,7 +23,11 @@ class PasswordsController < ApplicationController
   def update
     @user = User.find_by(verification_token: params[:verification_token])
     if @user.update(permitted_params)
-      redirect_to deals_url(status: 'live'), notice: t(:successful, resource_name: 'set new password')
+      if permitted_params[:password].blank? || permitted_params[:password_confirmation].blank?
+        redirect_to edit_password_url(token: @user.verification_token), alert: 'Both the fields are required'
+      else
+        redirect_to deals_url(status: 'live'), notice: t(:successful, resource_name: 'set new password')
+      end
     else
       render :edit, status: :unprocessable_entity
     end
