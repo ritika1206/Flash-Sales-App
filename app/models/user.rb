@@ -15,9 +15,9 @@ class User < ApplicationRecord
   has_many :line_items, through: :orders
 
   validates :name, :email, presence: true
-  validates :password, confirmation: true
+  validates :password, confirmation: true, allow_blank: true
   validates :password, length: { in: PASSWORD_LENGTH_RANGE }, allow_blank: true
-  validates :password, :password_confirmation, presence: true, if: :setting_password?
+  validates :password, presence: true, if: :setting_password?
   validates :email, format: { with: EMAIL_REGEX, message: 'invalid format' }, uniqueness: { case_sensitive: false }, allow_blank: true
   validates :name, format: { with: NAME_REGEX, message: 'can only contain alphabets' }, length: { minimum: MIN_NAME_LENGTH }, allow_blank: true
 
