@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authorize
-  before_action :requested_user, only: [:edit, :show, :update, :destroy]
+  before_action :user_in_params, only: [:edit, :show, :update, :destroy]
   before_action :restrict_other_user_profile_access, only: :show
 
   def edit
@@ -36,7 +36,7 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :verification_token)
     end
 
-    def requested_user
+    def user_in_params
       @user = User.find(params[:id])
     end
 

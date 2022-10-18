@@ -1,10 +1,11 @@
 class CheckoutController < ApplicationController
   before_action :set_transaction, only: [:success, :cancel]
+  before_action :order_in_params, only: [:checkout]
+
   def checkout
-    order = Order.find(params[:id])
     line_items = []
 
-    order.line_items.each do |line_item|
+    @order.line_items.each do |line_item|
       line_items << {
         price: Stripe::Price.create({
           unit_amount: line_item.net_price_after_tax.round,
@@ -19,8 +20,8 @@ class CheckoutController < ApplicationController
       line_items: line_items,
       mode: 'payment',
       billing_address_collection: "auto",
-      success_url: CGI.unescape(success_url(checkout_session_id: '{CHECKOUT_SESSION_ID}', order_id: order.id)),
-      cancel_url: CGI.unescape(cancel_url(checkout_session_id: '{CHECKOUT_SESSION_ID}', order_id: order.id))
+      success_url: CGI.unescape(success_url(checkout_session_id: '{CHECKOUT_SESSION_ID}', order_id: @order.id)),
+      cancel_url: CGI.unescape(cancel_url(checkout_session_id: '{CHECKOUT_SESSION_ID}', order_id: @order.id))
     })
     redirect_to session.url, allow_other_host: true
   end
@@ -79,5 +80,9 @@ class CheckoutController < ApplicationController
           status: 'unpaid',
         )        
       end
+    end
+
+    def order_in_params
+      @order = Order.find_by(params[:id])
     end
 end

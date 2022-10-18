@@ -9,7 +9,7 @@ class Admin::UsersController < Admin::BaseController
 
   def create
     @user = User.new(permitted_params)
-    @user.verified_at = Time.current
+    set_verified_at
     if @user.save
       redirect_to admin_users_url, notice: t(:successful, resource_name: 'created user')
     else
@@ -21,5 +21,9 @@ class Admin::UsersController < Admin::BaseController
 
     def permitted_params
       params.require(:user).permit(:name, :email, :password, :password_confirmation, :verification_token, :id)
+    end
+
+    def set_verified_at
+      @user.verified_at = Time.current
     end
 end

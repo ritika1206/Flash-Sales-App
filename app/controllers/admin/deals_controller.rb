@@ -26,7 +26,6 @@ class Admin::DealsController < Admin::BaseController
   end
 
   def show
-    render template: 'admin/deals/show'
   end
 
   def edit

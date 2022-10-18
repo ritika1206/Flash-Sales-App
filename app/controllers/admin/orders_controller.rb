@@ -1,5 +1,5 @@
 class Admin::OrdersController < Admin::BaseController
-  before_action :order_transaction_for_order_in_params
+  before_action :order_transaction_for_order_in_params, only: [:mark_status]
 
   def index
     @orders = Order.all
