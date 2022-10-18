@@ -3,10 +3,10 @@ User.delete_all
 
 3.times do |i|
   User.create!(
-    name: "user#{i}",
+    name: "user#{'h' * i}",
     email: "user#{i}@flash.com",
-    password: 'user',
-    password_confirmation: 'user',
+    password: 'userrr',
+    password_confirmation: 'userrr',
     verified_at: Time.current
   )
 end
@@ -16,8 +16,8 @@ puts "Successfully created users"
 admin = User.create!(
   name: 'Rit',
   email: 'rit@flash.com',
-  password: 'rit',
-  password_confirmation: 'rit',
+  password: 'ritrit',
+  password_confirmation: 'ritrit',
   role: 'admin',
   verified_at: Time.current
 )
@@ -33,7 +33,7 @@ puts "Successfully created admin"
     initial_quantity: 500 + i,
     current_quantity: 500 + i,
     tax_percentage: 2 + i,
-    published_at: Date.today - 2 + i
+    published_at: Date.today + i
   )
 
   deal.images.attach([
