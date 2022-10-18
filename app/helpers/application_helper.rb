@@ -25,7 +25,7 @@ module ApplicationHelper
     last_used_address.present? ? last_used_address : logged_in_user.addresses.last
   end
 
-  def logged_in_user_cart_order
+  def current_order
     logged_in_user.orders.find_by(status: 'in_cart')
   end
 end
