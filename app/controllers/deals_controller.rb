@@ -1,7 +1,7 @@
 class DealsController < ApplicationController
   def index
-    @deals = Deal.where(status: params[:status])
-    @status = params[:status]
+    @status = params[:status] || 'live'
+    @deals = Deal.where(status: @status)
     @deals = Deal.where(status: 'published').order(created_at: :desc).limit(2) if @deals.blank?
     respond_to do |format|
       format.json { render json: @deals }
