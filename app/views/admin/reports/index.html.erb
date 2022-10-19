@@ -10,7 +10,7 @@
     <% @deals_revenue.each do |deal_revenue| %>
       <tr>
         <td><%= link_to deal_revenue.title, deal_url(deal_revenue.id) %></td>
-        <td>$<%= deal_revenue.revenue %>
+        <td>$<%= to_dollar deal_revenue.revenue %>
       </tr>
     <% end %>
   </table>

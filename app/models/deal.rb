@@ -34,7 +34,7 @@ class Deal < ApplicationRecord
   scope :live_deals, -> { where(status: 'live') }
   scope :deals_publishing_today, -> { Deal.where(published_at: Date.today) }
   scope :published_deals, -> { where(status: 'published') }
-  scope :deals_revenue, -> { published_deals.select(:id, :title, '(initial_quantity - current_quantity) * discount_price_in_cents / 100 AS revenue').order(revenue: :desc) }
+  scope :deals_revenue, -> { published_deals.select(:id, :title, '(initial_quantity - current_quantity) * discount_price_in_cents AS revenue').order(revenue: :desc) }
 
   enum status: { live: 'live', unpublished: 'unpublished', published: 'published', deleted: 'deleted'}
 
