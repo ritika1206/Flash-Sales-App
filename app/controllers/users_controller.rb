@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_before_action :authorize
-  before_action :user_in_params, only: [:edit, :show, :update, :destroy]
+  before_action :user_in_params, only: %i(edit show update destroy)
   before_action :restrict_other_user_profile_access, only: :show
 
   def edit
