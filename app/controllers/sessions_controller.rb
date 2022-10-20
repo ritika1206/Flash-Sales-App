@@ -1,10 +1,10 @@
 class SessionsController < ApplicationController
-  skip_before_action :authorize, only: [:create, :new]
+  skip_before_action :authorize, only: %i(create new)
   
   def new
     @user = User.new
     if user_logged_in?
-      redirect_to deals_url(status: 'live'), alert: 'Logout to login as other user'
+      redirect_to deals_url(status: 'live'), alert: t(:logout_before_login)
     end
   end
 

@@ -1,5 +1,5 @@
 class AddressController < ApplicationController
-  before_action :order_in_params, only: [:new, :shipping]
+  before_action :order_in_params, only: %i(new shipping)
 
   def new
     @address = Address.new
@@ -13,9 +13,9 @@ class AddressController < ApplicationController
     if @address.save
       @order.shipping_address_id = @address.id
       if @order.save
-        redirect_to order_url(@order), notice: t(:successful, resource_name: 'added shipping address for order')
+        redirect_to order_url(@order), notice: t(:successful, resource_name: t(:added_shipping_address_for_order))
       else
-        redirect_to new_address_url, alert: "Unable to save shipping address for the order"
+        redirect_to new_address_url, alert: t(:Unable_to_save_shipping_address_for_the_order)
       end
     else
       render :new, status: :unprocessable_entity
@@ -24,7 +24,7 @@ class AddressController < ApplicationController
 
   def shipping
     if @order.update(shipping_address_id: permitted_address_params[:shipping_address_id])
-      redirect_to order_url(@order), notice: t(:successful, resource_name: 'added shipping address for order')
+      redirect_to order_url(@order), notice: t(:successful, resource_name: t(:added_shipping_address_for_order))
     else
       redirect_to new_address_url, alert: t(:default_error_message)
     end
@@ -38,6 +38,6 @@ class AddressController < ApplicationController
 
     def order_in_params
       @order = Order.find_by(id: params[:order_id])
-      redirect_to orders_url, alert: 'Order not found' if @order.blank?
+      redirect_to orders_url, alert: t(:order_404) if @order.blank?
     end
 end

@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :deal_in_params, only: [:create]
+  before_action :deal_in_params, only: :create
 
   def index
     @orders = logged_in_user.orders
@@ -19,22 +19,22 @@ class OrdersController < ApplicationController
     if order.persisted?
       # Prevent adding a deal more than once in an order
       if line_item.persisted?
-        redirect_to deals_url(status: 'live'), alert: 'Deal already present in the buying list' and return
+        redirect_to deals_url(status: 'live'), alert: t(:deal_already_present) + ' ' + t(:in_the_buying_list) and return
       else
         order.line_items << line_item
-        redirect_to order_url(order), notice: 'Successfully added deal in the buying list'
+        redirect_to order_url(order), notice: t(:successful, resource_name: 'added deal') + ' ' + t(:in_the_buying_list)
       end
     #when order with status as In_cart does not exists for the user
     else
       # Prevent buying of a deal when it already exist exists in another order (preventing buying a same deal multiple times)
       if logged_in_user.line_items.exists?(deal_id: permitted_params[:deal_id])
-        redirect_to deals_url(status: 'live'), alert: 'Not allowed to buy this deal'
+        redirect_to deals_url(status: 'live'), alert: t(:not_allowed_to_buy_this_deal)
       else
         if order.save
           order.line_items << line_item
-          redirect_to order_url(order), notice: 'Successfully added deal in the buying list'
+          redirect_to order_url(order), notice: t(:successful, resource_name: 'added deal') + ' ' + t(:in_the_buying_list)
         else
-          redirect_to deals_url(status: 'live'), alert: 'Unable to create order'
+          redirect_to deals_url(status: 'live'), alert: t(:unable, resourec_name: 'create order')
         end
       end
     end
@@ -50,7 +50,7 @@ class OrdersController < ApplicationController
     order = Order.find(params[:order_id])
     
     if order.update(status: 'cancelled')
-      redirect_to order_url(order), notice: 'Successfully cancelled order'
+      redirect_to order_url(order), notice: t(:successful, resource_name: 'cancelled order')
     else
       redirect_to order_url(order), alert: t(:default_error_message)
     end
@@ -67,6 +67,6 @@ class OrdersController < ApplicationController
 
     def deal_in_params
       @deal = Deal.find(permitted_params[:deal_id])
-      redirect_to deals_url(status: 'live'), alert: 'Deal does not exist' if @deal.blank?
+      redirect_to deals_url(status: 'live'), alert: t(:inexistent, resource_name: 'Deal') if @deal.blank?
     end
 end

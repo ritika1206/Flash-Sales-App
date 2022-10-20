@@ -1,6 +1,6 @@
 class CheckoutController < ApplicationController
-  before_action :set_transaction, only: [:success, :cancel]
-  before_action :order_in_params, only: [:checkout]
+  before_action :set_transaction, only: %i(success cancel)
+  before_action :order_in_params, only: :checkout
 
   def checkout
     line_items = []
@@ -33,7 +33,7 @@ class CheckoutController < ApplicationController
         @notice = t(:successful, resource_name: 'placed order')
         @css_class = 'notice'
       else
-        @notice = 'Unable to update order'
+        @notice = t(:unable, resourec_name: 'update order')
         @css_class = 'alert'
       end
     else
