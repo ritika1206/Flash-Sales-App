@@ -14,7 +14,7 @@ namespace :deal do
             puts "Unable to change status of the new live deal to live"
           end
         else
-          puts "Unable to publish #{deal}"
+          puts "#{deal} is unpublishable"
         end
       end
     else
