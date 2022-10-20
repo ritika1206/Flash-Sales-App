@@ -36,17 +36,20 @@ h4 {
   flex-direction: row;
   align-self: center;
   margin-bottom: 3vh;
+  width: 18%;
   a {
     text-decoration: underline;
     margin-right: 1vh;
     align-self: center;
     font-size: 3vh;
+    width: 100%;
   }
   form {
     border: none;
     box-shadow: none;
     margin: 0;
     padding: 0;
+    width: 100% !important;
   }
   .deal_crud_btn {
     border: none;
@@ -57,6 +60,7 @@ h4 {
     padding: 0;
     font-size: 3vh;
     text-decoration: underline;
+    width: 100%;
   }
 }
 
