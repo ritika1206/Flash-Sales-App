@@ -9,11 +9,14 @@ class Deal < ApplicationRecord
   DEAL_WITH_SAME_PUBLISH_DATE_QUANTITY = 2
   DATE_DIFFERENCE = 1
   
+  attr_accessor :deal_images
+
   has_many_attached :images
   has_many :line_items, dependent: :destroy
   has_many :orders, through: :line_items, dependent: :destroy
   belongs_to :creator, class_name: "User", foreign_key: 'created_by', optional: true
 
+  after_validation :set_images, on: :create
   before_update :restrict, if: ->(deal) { deal.less_than_one_day_away_from_publish? && (deal.status_change.try(:last) == 'deleted' || deal.published_at_changed?) }
   before_update :set_current_quantity
   after_destroy { |deal| deal.images.purge }
@@ -30,9 +33,9 @@ class Deal < ApplicationRecord
   validates :current_quantity, numericality: { less_than_or_equal_to: :initial_quantity }, allow_blank: true
   validates :published_at, comparison: { greater_than_or_equal_to: Date.today}, on: :create
 
-  scope :number_of_deals_with_publish_date, ->(date) { where(published_at: date).size }
+  scope :number_of_deals_with_publish_date, ->(date) { where(published_at: date, status: 'unpublished').size }
   scope :live_deals, -> { where(status: 'live') }
-  scope :deals_publishing_today, -> { Deal.where(published_at: Date.today) }
+  scope :deals_publishing_today, -> { Deal.where(published_at: Date.today, status: 'unpublished') }
   scope :published_deals, -> { where(status: 'published') }
   scope :deals_revenue, -> { published_deals.select(:id, :title, '(initial_quantity - current_quantity) * discount_price_in_cents AS revenue').order(revenue: :desc) }
 
@@ -53,5 +56,17 @@ class Deal < ApplicationRecord
 
   def set_current_quantity
     self.current_quantity += self.initial_quantity - initial_quantity_was
+  end
+
+  def set_images
+    if deal_images.present?
+      if deal_images.first.blank? && deal_images.size == 1
+        if new_record?
+          errors.add(:images, :blank, message: 'atleast 1 image should be present')
+        end
+      else
+        deal_images.each { |image| images.attach(image) }
+      end
+    end
   end
 end
