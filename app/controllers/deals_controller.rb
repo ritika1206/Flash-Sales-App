@@ -1,8 +1,8 @@
 class DealsController < ApplicationController
   def index
     @status = params[:status] || 'live'
-    @deals = Deal.where(status: @status)
-    @deals = Deal.where(status: 'published').order(created_at: :desc).limit(2) if @deals.blank?
+    @deals = Deal.includes(images_attachments: [:blob]).where(status: @status)
+    @deals = Deal.includes(images_attachments: [:blob]).where(status: 'published').order(created_at: :desc).limit(2) if @deals.blank?
     respond_to do |format|
       format.json { render json: @deals }
       format.html
@@ -10,7 +10,7 @@ class DealsController < ApplicationController
   end
 
   def show
-    @deal = Deal.find(params[:id])
+    @deal = Deal.includes(images_attachments: [:blob]).find(params[:id])
     respond_to do |format|
       format.json { render json: @deal }
       format.html
