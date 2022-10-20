@@ -21,7 +21,7 @@
     <h4>Line Items count: <%= @order.line_items.count %></h4>
   </div>
   <div class='order-detail-row'>
-    <% if admin_logged_in? && !@order.in_cart?%>
+    <% if admin_logged_in? && !@order.in_cart? && !@order.cancelled?%>
       <%= form_with model: @order, url: admin_order_mark_status_url(order_id: @order.id), method: :patch, class: 'order-status-select' do |form| %>
         <%= form.label :status, 'Mark status as:' %>
         <%= form.select :status, Order.statuses.keys.map(&:titleize), selected: @order.status.titleize %>
@@ -47,7 +47,7 @@
   </div>
   <div class='order-detail-row'>
     <h4>Created on: <%= @order.created_at.to_date %></h4>
-    <% if @order.placed? %>
+    <% if !@order.in_cart? %>
       <h4>Placed on: <%= @order.placed_at.to_date %></h4>
     <% end %>
     <% unless @order.in_cart? || @order.cancelled? %>

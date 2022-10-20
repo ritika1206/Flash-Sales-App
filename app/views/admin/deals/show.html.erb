@@ -11,5 +11,7 @@
 <% end %>
 <div class="deal_crud">
   <%= link_to('Update Deal ', edit_admin_deal_url(@deal)) %>
-  <%= button_to(' Delete Deal', admin_deal_url(@deal), method: :delete, class: "deal_crud_btn", data: { turbo_confirm: 'Are you sure you want to delete?' }) %>
+  <% unless @deal.deleted? %>
+    <%= button_to(' Archive Deal', admin_deal_url(@deal), method: :delete, class: "deal_crud_btn", data: { turbo_confirm: 'Are you sure you want to delete?' }) %>
+  <% end %>
 </div>

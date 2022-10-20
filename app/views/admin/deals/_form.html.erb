@@ -9,12 +9,12 @@
   <%= form.text_area :description, value: deal.description %>
   <%= render partial: 'layouts/error', locals: { attr: :description, entity: deal }%>
 
-  <%= form.label :price_in_cents %>
-  <%= form.number_field :price_in_cents, value: deal.price_in_cents %>
+  <%= form.label :price_in_cents, 'Price' %>
+  <%= form.number_field(:price_in_cents, value: to_dollar(deal.price_in_cents)) %>
   <%= render partial: 'layouts/error', locals: { attr: :price_in_cents, entity: deal }%>
 
-  <%= form.label :discount_price_in_cents %>
-  <%= form.number_field :discount_price_in_cents, value: deal.discount_price_in_cents %>
+  <%= form.label :discount_price_in_cents, 'Discount Price' %>
+  <%= form.number_field(:discount_price_in_cents, value: to_dollar(deal.discount_price_in_cents)) %>
   <%= render partial: 'layouts/error', locals: { attr: :discount_price_in_cents, entity: deal }%>
 
   <%= form.label :initial_quantity %>
@@ -45,6 +45,7 @@
   <div data-controller='deal-images'>
     <%= form.label :images %>
     <%= form.file_field :images, multiple: true, data: { action: "deal-images#addFile" } %>
+    <%= render partial: 'layouts/error', locals: { attr: :images, entity: deal }%>
 
     <div data-deal-images-target="files"></div>
   </div>
