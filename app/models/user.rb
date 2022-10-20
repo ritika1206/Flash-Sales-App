@@ -4,6 +4,8 @@ class User < ApplicationRecord
   PASSWORD_LENGTH_RANGE = 6..20
   MIN_NAME_LENGTH = 3
 
+  attr_accessor :password_changing
+
   has_secure_password
   has_secure_token :verification_token
   has_secure_token :api_token
@@ -33,6 +35,6 @@ class User < ApplicationRecord
     end
 
     def setting_password?
-      password_digest_changed?
+      password_digest_changed? || password_changing.present?
     end
 end
