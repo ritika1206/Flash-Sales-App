@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :deal_in_params, only: :create
+  before_action :set_deal, only: :create
 
   def index
     @orders = logged_in_user.orders
@@ -65,7 +65,7 @@ class OrdersController < ApplicationController
       params.require(:order).permit(:deal_id, :quantity)
     end
 
-    def deal_in_params
+    def set_deal
       @deal = Deal.find(permitted_params[:deal_id])
       redirect_to deals_url(status: 'live'), alert: t(:inexistent, resource_name: 'Deal') if @deal.blank?
     end

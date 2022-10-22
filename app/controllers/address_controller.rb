@@ -1,5 +1,5 @@
 class AddressController < ApplicationController
-  before_action :order_in_params, only: %i(new shipping)
+  before_action :set_order, only: %i(new shipping)
 
   def new
     @address = Address.new
@@ -36,7 +36,7 @@ class AddressController < ApplicationController
       params.require(:address).permit(:country, :city, :state, :line1, :line2, :postal_code, :shipping_address_id)
     end
 
-    def order_in_params
+    def set_order
       @order = Order.find_by(id: params[:order_id])
       redirect_to orders_url, alert: t(:order_404) if @order.blank?
     end

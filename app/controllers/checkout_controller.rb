@@ -1,6 +1,6 @@
 class CheckoutController < ApplicationController
   before_action :set_transaction, only: %i(success cancel)
-  before_action :order_in_params, only: :checkout
+  before_action :set_order, only: :checkout
 
   def checkout
     line_items = []
@@ -82,7 +82,7 @@ class CheckoutController < ApplicationController
       end
     end
 
-    def order_in_params
+    def set_order
       @order = Order.find_by(id: params[:id])
     end
 end

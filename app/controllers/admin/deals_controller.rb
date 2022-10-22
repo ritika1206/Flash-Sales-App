@@ -1,5 +1,5 @@
 class Admin::DealsController < Admin::BaseController
-  before_action :deal_in_params, only: %i(show edit destroy update)
+  before_action :set_deal, only: %i(show edit destroy update)
   before_action :destroy_images, only: :update
   before_action :initialize_deal, only: :create
   before_action :initialize_deal_for_update, only: :update
@@ -54,7 +54,7 @@ class Admin::DealsController < Admin::BaseController
       params.require(:deal).permit(:title, :description, :initial_quantity, :tax_percentage, :published_at)
     end
 
-    def deal_in_params
+    def set_deal
       @deal = Deal.includes(images_attachments: [:blob]).find_by(id: params[:id])
       redirect_to admin_deals_url(status: 'live'), alert: t(:unable, resource_name: 'find deal') if @deal.blank?
     end

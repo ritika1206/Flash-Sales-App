@@ -1,6 +1,6 @@
 class Admin::OrdersController < Admin::BaseController
-  before_action :latest_order_transaction_for_order_in_params, only: :mark_status
-  before_action :order_in_params, only: :mark_status
+  before_action :set_order_transaction, only: :mark_status
+  before_action :set_order, only: :mark_status
 
   def index
     @orders = Order.all
@@ -33,12 +33,12 @@ class Admin::OrdersController < Admin::BaseController
       params.require(:order).permit(:status)
     end
 
-    def latest_order_transaction_for_order_in_params
+    def set_order_transaction
       @order_transaction = OrderTransaction.latest_transaction(params[:order_id])
       redirect_to admin_orders_url, alert: t(:transaction_inexistent) if @order_transaction.blank?
     end
 
-    def order_in_params
+    def set_order
       @order = Order.find_by(id: params[:order_id])
     end
 end
