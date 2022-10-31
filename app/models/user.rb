@@ -17,21 +17,23 @@ class User < ApplicationRecord
   has_many :line_items, through: :orders
 
   validates :name, :email, presence: true
-  validates :password, confirmation: true, allow_blank: true
-  validates :password, length: { in: PASSWORD_LENGTH_RANGE }, allow_blank: true
+  with_options allow_blank: true do |user|
+    user.validates :password, confirmation: true
+    user.validates :password, length: { in: PASSWORD_LENGTH_RANGE }
+    user.validates :email, format: { with: EMAIL_REGEX, message: 'invalid format' }, uniqueness: { case_sensitive: false }
+    user.validates :name, format: { with: NAME_REGEX, message: 'can only contain alphabets' }, length: { minimum: MIN_NAME_LENGTH }
+  end
   validates :password, presence: true, if: :setting_password?
-  validates :email, format: { with: EMAIL_REGEX, message: 'invalid format' }, uniqueness: { case_sensitive: false }, allow_blank: true
-  validates :name, format: { with: NAME_REGEX, message: 'can only contain alphabets' }, length: { minimum: MIN_NAME_LENGTH }, allow_blank: true
 
   after_create_commit :send_verification_email, unless: :verified_at?
 
-  scope :customer_expenditure, -> (from, to) { User.joins(:orders).where('orders.placed_at' => from..to).order(sum_orders_discount_price: :desc).select('users.id', :email, :discount_price).group(:email, 'users.id').sum('orders.discount_price') }
-
   enum role: { user: 'user', admin: 'admin' }
+
+  scope :customer_expenditure, -> (from, to) { joins(:orders).where('orders.placed_at' => from..to).order(sum_orders_discount_price: :desc).select('users.id', :email, :discount_price).group(:email, 'users.id').sum('orders.discount_price') }
 
   private
     def send_verification_email
-      UserMailer.verify_email(self).deliver_now if user?
+      UserMailer.verify_email(self).deliver_later if user?
     end
 
     def setting_password?

@@ -1,19 +1,20 @@
 class OrdersController < ApplicationController
   before_action :set_deal, only: :create
+  before_action :set_order, only: :show
+  before_action :set_order_for_cancel, only: :cancel
 
   def index
     @orders = logged_in_user.orders
   end
 
   def show
-    @order = Order.find(params[:id])
     @shipping_address = Address.find_by(id: @order.try(:shipping_address_id))
   end
 
   def create
     # This would avoid creating more than one order with status as in cart
     order = Order.find_or_initialize_by(status: :in_cart, user_id: logged_in_user.id)
-    line_item = LineItem.find_or_initialize_by(deal_id: permitted_params[:deal_id], quantity: permitted_params[:quantity], order_id: order.id, discounted_price: @deal.discount_price_in_cents)
+    line_item = order.line_items.find_or_initialize_by(permitted_params.merge(discounted_price: @deal.discount_price_in_cents))
 
     # When order with status as In_cart already exists for the user
     if order.persisted?
@@ -40,19 +41,11 @@ class OrdersController < ApplicationController
     end
   end
 
-  def edit
-  end
-
-  def update
-  end
-
-  def cancel
-    order = Order.find(params[:order_id])
-    
-    if order.update(status: 'cancelled')
-      redirect_to order_url(order), notice: t(:successful, resource_name: 'cancelled order')
+  def cancel    
+    if @order.update(status: 'cancelled')
+      redirect_to order_url(@order), notice: t(:successful, resource_name: 'cancelled order')
     else
-      redirect_to order_url(order), alert: t(:default_error_message)
+      redirect_to order_url(@order), alert: t(:default_error_message)
     end
   end
 
@@ -66,7 +59,15 @@ class OrdersController < ApplicationController
     end
 
     def set_deal
-      @deal = Deal.find(permitted_params[:deal_id])
+      @deal = Deal.find_by(id: permitted_params[:deal_id])
       redirect_to deals_url(status: 'live'), alert: t(:inexistent, resource_name: 'Deal') if @deal.blank?
+    end
+
+    def set_order
+      @order = Order.find_by(id: params[:id])
+    end
+
+    def set_order_for_cancel
+      order = Order.find_by(id: params[:order_id])
     end
 end

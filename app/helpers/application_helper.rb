@@ -15,9 +15,12 @@ module ApplicationHelper
     (price.to_f/100).round(2) if price.present?
   end
 
-  def live_deal_exist?(deals)
-    return true if deals.first.live?
+  def to_cent(price)
+    price.try(:to_f).try(:*, 100)
+  end
 
+  def live_deal_exist?(deals)
+    deals.first.live?
   end
 
   def logged_in_user_last_used_shipping_address

@@ -84,5 +84,6 @@ class CheckoutController < ApplicationController
 
     def set_order
       @order = Order.find_by(id: params[:id])
+      redirect_to orders_url, alert: t(:inexistent, resource_name: 'Order') if @order.blank?
     end
 end

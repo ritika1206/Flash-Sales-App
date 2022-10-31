@@ -2,8 +2,8 @@ class LineItem < ApplicationRecord
   belongs_to :order
   belongs_to :deal
 
-  before_create :calculate_loyality_discount_percentage_and_price
-  before_create :calculate_price_after_tax
+  before_validation :calculate_loyality_discount_percentage_and_price
+  before_validation :calculate_price_after_tax
 
   def calculate_loyality_discount_percentage_and_price
     user_order_number = Order.where(user_id: order.user_id).count

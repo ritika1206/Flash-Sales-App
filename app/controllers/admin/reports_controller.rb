@@ -1,6 +1,6 @@
 class Admin::ReportsController < Admin::BaseController
   def index
-    @deals_revenue = Deal.deals_revenue
+    @deals_revenue = Deal.revenue
 
     @maximum_potential_deal = @deals_revenue.first
     @minimum_potential_deal = @deals_revenue.last

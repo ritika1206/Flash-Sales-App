@@ -1,11 +1,8 @@
 class Admin::DealsController < Admin::BaseController
   before_action :set_deal, only: %i(show edit destroy update)
   before_action :destroy_images, only: :update
-  before_action :initialize_deal, only: :create
-  before_action :initialize_deal_for_update, only: :update
-  before_action :set_price, only: %i(create update)
-  before_action :set_images_on_create, only: :create
-  before_action :set_images_on_update, only: :update
+  before_action :set_price, only: :update
+  before_action :set_images, only: :update
   
   def index
     @status = params[:status] || 'live'
@@ -17,10 +14,12 @@ class Admin::DealsController < Admin::BaseController
   end
 
   def create
+    @deal = logged_in_user.deals.build(deal_permitted_params)
+    set_images
+    set_price
     if @deal.save
       redirect_to admin_deals_url(status: 'unpublished'), notice: t(:successful, resource_name: 'created deal')
     else
-      debugger
       render :new, status: :unprocessable_entity
     end
   end
@@ -67,26 +66,12 @@ class Admin::DealsController < Admin::BaseController
       end
     end
 
-    def initialize_deal
-      @deal = Deal.new(deal_permitted_params)
-      @deal.creator = logged_in_user
-      @deal.current_quantity = deal_permitted_params[:initial_quantity]
-    end
-
-    def set_images_on_create
-      @deal.deal_images = params[:deal][:images]
-    end
-
     def set_price
-      @deal.price_in_cents = params[:deal][:price_in_cents].try(:to_f).try(:*, 100)
-      @deal.discount_price_in_cents = params[:deal][:discount_price_in_cents].try(:to_f).try(:*, 100)
+      @deal.price_in_cents = to_cent(params[:deal][:price_in_cents])
+      @deal.discount_price_in_cents = to_cent(params[:deal][:discount_price_in_cents])
     end
 
-    def initialize_deal_for_update
-      @deal = Deal.find_by(id: params[:id])
-    end
-
-    def set_images_on_update
+    def set_images
       params[:deal][:images].each { |image| @deal.images.attach(image) }
     end
 end

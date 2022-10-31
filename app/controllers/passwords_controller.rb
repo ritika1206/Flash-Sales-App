@@ -8,7 +8,7 @@ class PasswordsController < ApplicationController
   def forgot_password_verify_email
     @user = User.find_by(email: permitted_params[:email])
     if @user.present?
-      UserMailer.verify_email_for_forgot_password(@user).deliver_now
+      UserMailer.verify_email_for_forgot_password(@user).deliver_later
       render 'email_confirmation'
     else
       permitted_params[:email].blank? ? (flash[:alert] = t(:please_provide_an_email)) : flash[:alert] = t(:inexistent, resource_name: 'Email')
