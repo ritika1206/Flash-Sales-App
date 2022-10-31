@@ -1,0 +1,30 @@
+<div class="deals_container row">
+  <% if @deals.present? %>
+    <% if @status == 'live'%>
+      <% if !@deals.first.live? %>
+        <p>No <%= @status %> deals exist...</p>
+        <p>Recent Deals</p>
+      <% else %>
+        <p>Live Deals</p>
+      <% end %>
+    <% else %>
+      <p><%= @status == 'deleted' ? 'Archived' : @status.capitalize %> Deals<p>
+    <% end %>
+    <%= render(partial: 'deals/deal', collection: @deals, locals: { summarize: true, css_class: nil }) %>
+  <% else %>
+    <p>No <%= @status %> deals exist...</p>
+  <% end %>
+</div>
+
+<script>
+  const updateDealsQuantity = () => {
+    fetch("<%= deals_url(status: @status) %>")
+    .then(response => response.json())
+    .then((data) => {
+      for (deal of data) {
+        document.querySelector(`[data-ref="deal_quantity_${deal.id}"]`).innerHTML = `Quantity: ${deal.current_quantity}`
+      }
+    })
+  }
+  setInterval(updateDealsQuantity, 3000);
+</script>

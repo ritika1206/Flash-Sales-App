@@ -1,0 +1,28 @@
+<%= form_with model: user, url: submission_url, method: request_method do |form| %>
+  <h2><%= form_title %></h2>
+  <%= form.label :name, 'Name ' %>
+  <%= form.text_field :name %>
+  <%= render partial: 'layouts/error', locals: { attr: :name, entity: user }%>
+
+  <%= form.label :email %>
+  <%= form.email_field :email %>
+  <%= render partial: 'layouts/error', locals: { attr: :email, entity: user }%>
+
+  <% unless mode == 'edit' %>
+    <%= form.label :password %>
+    <%= form.password_field :password %>
+    <%= render partial: 'layouts/error', locals: { attr: :password, entity: user }%>
+
+    <%= form.label :password_confirmation %>
+    <%= form.password_field :password_confirmation %>
+    <%= render partial: 'layouts/error', locals: { attr: :password_confirmation, entity: user }%>
+  <% end %>
+
+  <button type="submit"><%= form_title %></button>
+
+  <% if form_title == 'Sign up' %>
+    <p>Already registered?
+      <%= link_to 'Login', login_url %>
+    </p>
+  <% end %>
+<% end %>

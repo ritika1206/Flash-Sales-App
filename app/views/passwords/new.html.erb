@@ -1,0 +1,9 @@
+<%= form_with model: @user, url: verify_email_for_forgot_password_url, method: :get do |form| %>
+  <% errors = @user.errors.as_json(full_messages: true) %>
+
+  <%= form.label :email, t(:enter_registered_email) %>
+  <%= form.email_field :email%>
+  <%= render partial: 'layouts/error', locals: { attr: :email, entity: @user }%>
+
+  <button type="submit">Submit</button>
+<% end %>

@@ -1,0 +1,52 @@
+<% if @deals_revenue.blank? %>
+  <h4 class='no-rev-data-head'>No revenue data available yet...</h4>
+<% else %>
+  <h4 class='no-rev-data-head'>Deal Revenue Report</h4>
+  <table class='deal-revenue'>
+    <tr>
+      <th>Deal</th>
+      <th>Revenue</th>
+    </tr>
+    <% @deals_revenue.each do |deal_revenue| %>
+      <tr>
+        <td><%= link_to deal_revenue.title, deal_url(deal_revenue.id) %></td>
+        <td>$<%= to_dollar deal_revenue.revenue %>
+      </tr>
+    <% end %>
+  </table>
+  <% unless @deals_revenue.size == 1 %>
+    <div class='deal-potential'>
+      <p>Maximum potential deal: <%= link_to @maximum_potential_deal.title, deal_url(@maximum_potential_deal.id) %></p>
+      <p>Maximum potential deal: <%= link_to @minimum_potential_deal.title, deal_url(@minimum_potential_deal.id) %></p>
+    </div>
+  <% end %>
+<% end %>
+
+<%= form_with url: admin_reports_url, method: :get, class: 'exp-search' do |form| %>
+  <h5>Search Customer Expenditure within a date range</h5>
+  <%= form.label :from, 'From date'%>
+  <%= form.date_field :from, value: params[:from] || @default_start_date %>
+
+  <%= form.label :to, 'To date'%>
+  <%= form.date_field :to, value: params[:to] || @default_end_date %>
+
+  <button type='submit'>Search</button>
+<% end %>
+
+<% if @customers_expenditure.blank? %>
+  <h4 class='no-exp-data-head'>No customer expenditure data available yet...</h4>
+<% else %>
+  <h4 class='no-exp-data-head'>Customer Expenditure Report</h4>
+  <table class='cust-exp'>
+    <tr>
+      <th>Customer</th>
+      <th>Expenditure</th>
+    </tr>
+    <% @customers_expenditure.each do |email_and_id, revenue| %>
+      <tr>
+        <td><%= link_to email_and_id[0], user_url(email_and_id.last) %></td>
+        <td>$<%= to_dollar revenue %>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

@@ -1,0 +1,71 @@
+<% dynamic_css = '' %>
+<% if logged_in_user.addresses.present? %>
+  <h4 class='select-address-form-title'>Select Shipping Address</h4>
+  <%= form_with(model: @address, url: shipping_address_index_url(order_id: @order.id), method: :patch, class: 'address-select-form') do |form| %>
+    <%= form.collection_select :shipping_address_id, logged_in_user.addresses.all, :id, :to_s, { select: logged_in_user_last_used_shipping_address} %>
+    <button type='submit'>Submit</button>
+  <% end %>
+
+  <div class='part'>
+    <hr>
+    <p>OR</p>
+    <hr>
+  </div>
+<% else %>
+  <% dynamic_css = 'only-address-input' %>
+<% end %>
+
+<h4 class='address-form-title <%= dynamic_css %>'>Add a new Shipping Address</h4>
+<%= form_with(model: @address, url: address_index_url(verification_token: logged_in_user.verification_token, order_id: @order.id), method: :post, class: 'address-form') do |form| %>
+  <% errors = @address.errors.as_json(full_messages: true) %>
+
+  <%= form.label :country %>
+  <%= form.text_field :country %>
+  <% if errors[:country].present? %>
+    <div class='field_with_errors'>
+      <p><%= errors[:country].join(', ') %></p>
+    </div>
+  <% end %>
+
+  <%= form.label :line1 %>
+  <%= form.text_field :line1 %>
+  <% if errors[:line1].present? %>
+    <div class='field_with_errors'>
+      <p><%= errors[:line1].join(', ') %></p>
+    </div>
+  <% end %>
+
+  <%= form.label :line2 %>
+  <%= form.text_field :line2 %>
+  <% if errors[:line2].present? %>
+    <div class='field_with_errors'>
+      <p><%= errors[:line2].join(', ') %></p>
+    </div>
+  <% end %>
+
+  <%= form.label :city %>
+  <%= form.text_field :city %>
+  <% if errors[:city].present? %>
+    <div class='field_with_errors'>
+      <p><%= errors[:city].join(', ') %></p>
+    </div>
+  <% end %>
+
+  <%= form.label :state %>
+  <%= form.text_field :state %>
+  <% if errors[:state].present? %>
+    <div class='field_with_errors'>
+      <p><%= errors[:state].join(', ') %></p>
+    </div>
+  <% end %>
+
+  <%= form.label :postal_code %>
+  <%= form.text_field :postal_code %>
+  <% if errors[:postal_code].present? %>
+    <div class='field_with_errors'>
+      <p><%= errors[:postal_code].join(', ') %></p>
+    </div>
+  <% end %>
+
+  <button type='submit'>Submit</button>
+<% end %>

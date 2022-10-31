@@ -1,0 +1,61 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t "hello"
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t("hello") %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# The following keys must be escaped otherwise they will not be retrieved by
+# the default I18n backend:
+#
+# true, false, on, off, yes, no
+#
+# Instead, surround them with single quotes.
+#
+# en:
+#   "true": "foo"
+#
+# To learn more, please read the Rails Internationalization guide
+# available at https://guides.rubyonrails.org/i18n.html.
+
+en:
+  login_for_app_access: 'Please login to access the app'
+  not_exist: "%{resource_name} does not exist"
+  verify_email: 'Please verify email to login'
+  default_error_message: 'Something went wrong'
+  successful: "Successfully %{resource_name}"
+  invalid: "Invalid %{resource_name}"
+  access_prohibitted: 'Access prohibitted'
+  new_password: 'New passowrd'
+  new_password_confirmation: 'New password confirmation'
+  new_password_email_acknowledgement: 'An email is send to you resgistered email address, please check that email and set your new password'
+  enter_registered_email: 'Enter your registered email'
+  login: 'Login'
+  sign_up: 'Sign up'
+  forgot_password: 'Forgot password'
+  set_new_password: 'Set new password'
+  verify_your_email: 'Verify your Email'
+  unable: 'Unable to %{resource_name}'
+  update_not_allowed: 'Update not allowed'
+  transaction_inexistent: 'No transaction exist for the order'
+  Unable_to_save_shipping_address_for_the_order: "Unable to save shipping address for the order"
+  added_shipping_address_for_order: 'added shipping address for order'
+  order_404: 'Order not found'
+  deleted_deal_from_order: 'deleted deal from order'
+  in_the_buying_list: 'in the buying list'
+  deal_already_present: 'Deal already present'
+  not_allowed_to_buy_this_deal: 'Not allowed to buy this deal'
+  inexistent: '%(resource_name) does not exist'
+  please_provide_an_email: 'Please provide and email'
+  logout_before_login: 'Logout to login as other user'

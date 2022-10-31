@@ -1,0 +1,23 @@
+<div class='user'>
+  <div class='user-details'>
+    <h1><%= user.name.capitalize %></h1>
+    <h3><%= user.email %></h3>
+    <% if admin_logged_in? %>
+      <h4 class='user-role'>Role: <%= user.role %></h4>
+      <h4><%= user.verified_at.present? ? "Verified on: #{user.verified_at}" : 'Unverifed user' %></h4>
+    <% end %>
+    <% if creation_updation_show %>
+      <h4 class='create-update-info'>Registered on: <%= user.created_at.to_date %>
+      <h4 class='create-update-info'>Profile last updated on: <%= user.updated_at.to_date %>
+    <% end %>
+    <h5>API Token: <%= user.api_token %></h5>
+  </div>
+  <% if admin_logged_in? || logged_in_user.id == user.id%>
+    <div class='user-crud'>
+      <%= link_to('Show', user_url(user.id)) if show_link %>
+      <%= link_to('Edit Profile', edit_user_url(user.id)) %>
+      <%= link_to('Edit Password', edit_password_url(token: user.verification_token)) %>
+      <%= button_to('Delete', user_url(user.id), method: :delete, class: 'delete-user-btn', data: { turbo_confirm: 'Are you sure you want to delete?' }) %>
+    </div>
+  <% end %>
+</div>

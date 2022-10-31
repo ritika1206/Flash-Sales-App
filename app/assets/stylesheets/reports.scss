@@ -1,0 +1,40 @@
+.exp-search {
+  margin-bottom: 4vh;
+  h5 {
+    align-self: center;
+    margin-bottom: 3vh;
+  }
+  button {
+    font-size: 2.1vh;
+  }
+}
+
+.no-exp-data-head {
+  margin-top: 4vh;
+}
+
+.no-rev-data-head {
+  margin-top: 9vh;
+}
+
+.deal-revenue, .cust-exp {
+  margin-top: 4vh;
+  box-shadow: 0.1vh 0.1vh 2vh 0.3vh #D9D9DA;
+  align-self: center;
+  text-align: center;
+  width: 30%;
+  margin-bottom: 3vh;
+  th {
+    background-color: #c7c5c5;
+  }
+  td {
+    padding: 1vh !important;
+  }
+}
+
+.deal-potential {
+  p {
+    font-size: 2vh !important;
+    margin-top: 0.5vh !important;
+  }
+}
