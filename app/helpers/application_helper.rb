@@ -16,7 +16,7 @@ module ApplicationHelper
   end
 
   def to_cent(price)
-    price.try(:to_f).try(:*, 100)
+    price.try(:to_f).try(:*, 100) unless price.blank?
   end
 
   def live_deal_exist?(deals)

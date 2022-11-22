@@ -34,7 +34,7 @@ class Admin::OrdersController < Admin::BaseController
     end
 
     def set_order_transaction
-      @order_transaction = OrderTransaction.latest_transaction(params[:order_id])
+      @order_transaction =  OrderTransaction.where(order_id: params[:order_id]).order(created_at: :desc).first
       redirect_to admin_orders_url, alert: t(:transaction_inexistent) if @order_transaction.blank?
     end
 

@@ -15,8 +15,10 @@ class Admin::DealsController < Admin::BaseController
 
   def create
     @deal = logged_in_user.deals.build(deal_permitted_params)
-    set_images
-    set_price
+    params[:deal][:images].each { |image| @deal.images.attach(image) }
+    @deal.price_in_cents = to_cent(params[:deal][:price_in_cents])
+    @deal.discount_price_in_cents = to_cent(params[:deal][:discount_price_in_cents])
+
     if @deal.save
       redirect_to admin_deals_url(status: 'unpublished'), notice: t(:successful, resource_name: 'created deal')
     else

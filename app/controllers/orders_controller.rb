@@ -14,15 +14,15 @@ class OrdersController < ApplicationController
   def create
     # This would avoid creating more than one order with status as in cart
     order = Order.find_or_initialize_by(status: :in_cart, user_id: logged_in_user.id)
-    line_item = order.line_items.find_or_initialize_by(permitted_params.merge(discounted_price: @deal.discount_price_in_cents))
+    line_item = order.line_items.find_by(permitted_params.merge(discounted_price: @deal.discount_price_in_cents))
 
     # When order with status as In_cart already exists for the user
     if order.persisted?
       # Prevent adding a deal more than once in an order
-      if line_item.persisted?
+      if line_item.present?
         redirect_to deals_url(status: 'live'), alert: t(:deal_already_present) + ' ' + t(:in_the_buying_list) and return
       else
-        order.line_items << line_item
+        order.line_items.create(permitted_params.merge(discounted_price: @deal.discount_price_in_cents))
         redirect_to order_url(order), notice: t(:successful, resource_name: 'added deal') + ' ' + t(:in_the_buying_list)
       end
     #when order with status as In_cart does not exists for the user
@@ -32,7 +32,7 @@ class OrdersController < ApplicationController
         redirect_to deals_url(status: 'live'), alert: t(:not_allowed_to_buy_this_deal)
       else
         if order.save
-          order.line_items << line_item
+          order.line_items.create(permitted_params.merge(discounted_price: @deal.discount_price_in_cents))
           redirect_to order_url(order), notice: t(:successful, resource_name: 'added deal') + ' ' + t(:in_the_buying_list)
         else
           redirect_to deals_url(status: 'live'), alert: t(:unable, resourec_name: 'create order')
